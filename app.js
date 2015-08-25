@@ -14,8 +14,8 @@ app.get('/', function (req, res) {
   res.send('Hello World')
 });
  
-app.get('/tweets', function(req, res) {
-  var params = {screen_name: 'nodejs'};
+app.get('/tweets/:id', function(req, res) {
+  var params = {screen_name: req.params.id};
   client.get('statuses/user_timeline', params, function(error, tweets, response){
     if (!error) {
       res.writeHead(200, {'Content-Type': 'text/plain'});

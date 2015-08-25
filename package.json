@@ -11,7 +11,9 @@
   "license": "Apache-2.0",
   "dependencies": {
     "express": "^4.13.3",
+    "extend": "^3.0.0",
     "twitter": "^1.2.5",
-    "watson-developer-cloud": "^0.9.29"
+    "watson-developer-cloud": "^0.9.29",
+    "winston": "^1.0.1"
   }
 }
