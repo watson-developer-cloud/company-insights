@@ -15,14 +15,12 @@ var services = {
     version: 'v2'
   },
 
-  twitter: [
-  // Twitter app credentials: https://apps.twitter.com/app
-  {
+  twitter: {
     consumer_key:       '<consumer_key>',
     consumer_secret:    '<consumer_secret>',
     access_token_key:   '<access_token_key>',
     access_token_secret:'<access_token_secret>'
-  }]
+  }
 };
 
 
