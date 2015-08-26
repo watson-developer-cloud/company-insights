@@ -5,7 +5,6 @@ var config = require('./config.js');
 var personality_insights = watson.personality_insights(config.services.personality_insights);
 
 
-// https://access.alchemyapi.com/
 
 
 function getBig5PersonalityTraits(text, callback) {
@@ -30,6 +29,9 @@ var extractBig5 = function(tree) {
     });
 };
 
+
+// base url: https://access.alchemyapi.com/
+// docs: http://docs.alchemyapi.com/
 
 function getNewsAbout(id, callback) {
     callback(new Error('not implemented'));
