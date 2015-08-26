@@ -8,7 +8,7 @@ var app = express()
 
 var twitterClient = new Twitter(config.services.twitter);
 
-var pi = watson.personality_insights(config.services.personality_insights);
+var personality_insights = watson.personality_insights(config.services.personality_insights);
 
 var MAX_COUNT = 200;
 
@@ -20,10 +20,10 @@ app.get('/tweets/:id', function(req, res) {
   var params = {screen_name: req.params.id};
   twitterClient.get('statuses/user_timeline', params, function(error, tweets, response){
     if (!error) {
-      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
       res.end(JSON.stringify(tweets));
     } else {
-      res.writeHead(500, {'Content-Type': 'text/plain'});
+      res.writeHead(500, {'Content-Type': 'text/plain; charset=utf-8'});
       res.end(error.stack);
     }
   });
@@ -32,32 +32,50 @@ app.get('/tweets/:id', function(req, res) {
 app.get('/getalltweets/:id', function(req, res) {
   getAllTweets(req.params.id, function(error, tweets) {
     if (!error) {
-      res.writeHead(200, {'Content-Type': 'text/plain'});
-      res.end(JSON.stringify(tweets));
+      res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
+
+      // concat all tweets to a single string
+      var tweetText = tweets.map(function(tweet) {
+        return tweet.content;
+      }).join(' ');
+      res.end(tweetText);
     } else {
-      res.writeHead(500, {'Content-Type': 'text/plain'});
+      res.writeHead(500, {'Content-Type': 'text/plain; charset=utf-8'});
       res.end(error.stack);
     }
   });
 });
 
-app.get('/pi', function(req, res) {
-  pi.profile(
-    {
-      text: 'We observe today not a victory of party but a celebration of freedom--symbolizing an end as well as a beginning--signifying renewal as well as change. For I have sworn before you and Almighty God the same solemn oath our forbears prescribed nearly a century and three-quarters ago. The world is very different now. For man holds in his mortal hands the power to abolish all forms of human poverty and all forms of human life. And yet the same revolutionary beliefs for which our forebears fought are still at issue around the globe--the belief that the rights of man come not from the generosity of the state but from the hand of God.',
-      language: 'en'
-    },
-    function (err, response) {
-      if (err) {
-        console.log('error:', err);
-        res.writeHead(500, {'Content-Type': 'text/plain'});
-        res.end(err.stack);
-      } else {
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end(JSON.stringify(response));
-      }
+app.get('/personality_insights/:id', function(req, res) {
+  getAllTweets(req.params.id, function(error, tweets) {
+    if (!error) {
+      // concat all tweets to a single string
+      var tweetText = tweets.map(function(tweet) {
+        return tweet.content;
+      }).join(' ');
+      // personality insights with the concatenated text
+      personality_insights.profile(
+        {
+          text: tweetText,
+          language: 'en'
+        },
+        function (err, response) {
+          if (!err) {
+            res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
+            res.end(JSON.stringify(response));
+          } else {
+            console.log('error:', err);
+            res.writeHead(500, {'Content-Type': 'text/plain; charset=utf-8'});
+            res.end(err.stack);
+          }
+        }
+      );
+    } else {
+      console.log('error:', err);
+      res.writeHead(500, {'Content-Type': 'text/plain; charset=utf-8'});
+      res.end(err.stack);
     }
-  );
+  });
 });
 
 app.listen(8080);
@@ -78,11 +96,11 @@ function toContentItem(tweet) {
   };
 }
 
-function getAllTweets(screen_name, callback, current) {
+function getAllTweets(screen_name, callback, previousParams, current) {
   logger.info('getTweets for:', screen_name);
 
   var tweets = current || [],
-      params = {
+      params = previousParams || {
         screen_name: screen_name,
         count: MAX_COUNT,
         exclude_replies: true,
@@ -90,7 +108,6 @@ function getAllTweets(screen_name, callback, current) {
       };
 
   var processTweets = function(error, _tweets) {
-    console.log(_tweets);
     // Check if _tweets its an error
     if (error)
       return callback(error);
@@ -102,12 +119,15 @@ function getAllTweets(screen_name, callback, current) {
     tweets = tweets.concat(items);
     logger.info(screen_name,'_tweets.count:',tweets.length);
     if (_tweets.length > 1) {
-      // TODO: this doesn't work :(
       params.max_id = _tweets[_tweets.length-1].id - 1;
-      getAllTweets(screen_name, callback, tweets);
+      getAllTweets(screen_name, callback, params, tweets);
     } else {
-       callback(null, tweets);
+      // return tweets in order they were posted
+      tweets.reverse();
+      callback(null, tweets);
     }
   };
+
   twitterClient.get('statuses/user_timeline', params, processTweets);
 }
+
