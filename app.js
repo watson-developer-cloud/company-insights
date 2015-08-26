@@ -1,4 +1,4 @@
-
+'use strict';
 var express = require('express');
 var watson = require('watson-developer-cloud');
 var logger = require('./logger.js');
@@ -64,7 +64,7 @@ app.get('/personality_insights/:id', function(req, res) {
       function (err, response) {
         if (!err) {
           res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
-          res.end(JSON.stringify(response));
+          res.end(JSON.stringify(big5(response), null, 2)); // todo: make this safe incase the format doesn't match expectations
         } else {
           console.log('error:', err);
           res.writeHead(500, {'Content-Type': 'text/plain; charset=utf-8'});
@@ -128,3 +128,16 @@ function getAllTweets(screen_name, callback, previousParams, current) {
   twitterClient.get('statuses/user_timeline', params, processTweets);
 }
 
+
+
+/**
+ * Return the Big 5 Traits normalized
+ * @return Array      The 5 main traits
+ */
+var big5 = function(tree) {
+  var profile = typeof (tree) === 'string' ? JSON.parse(tree) : tree;
+  var _big5 = profile.tree.children[0].children[0].children;
+  return _big5.map(function(trait) {
+    return { name: trait.name, value: trait.percentage };
+  });
+};
