@@ -1,6 +1,6 @@
 'use strict';
 var express = require('express');
-var logger = require('./logger.js');
+var packageJson = require('./package.json');
 var config = require('./config.js');
 
 var app = express();
@@ -15,18 +15,18 @@ app.get('/personality_insights/:id', function(req, res) {
   twitterClient.getAllTweets(req.params.id, function(error, tweets) {
     if (error) {
       console.error('error:', error);
-      return res.status(500).type('txt').end((error[0] || error).stack || (error[0] || error).message);
+      return res.status(500).end(error.message || error);
     }
     // concat all tweets to a single string
     var tweetText = tweets.map(function(tweet) {
       return tweet.content;
-    }).join(' ');
+    }).join('\n');
 
     // then call PI on the concatenated tweets
     watson.getBig5PersonalityTraits(tweetText, function (err, big5) {
       if (err) {
         console.log('error:', err);
-        res.status(500).send(err.message || err);
+        return res.status(500).send(err.message || err);
       }
       res.json(big5);
     });
@@ -35,15 +35,17 @@ app.get('/personality_insights/:id', function(req, res) {
 
 app.get('/news/:id', function(req, res) {
   watson.getNewsAbout(req.params.id, function(err, news) {
-    if (!err) {
+    if (err) {
       console.log('error:', err);
-      res.status(500).send(err.message || err);
+      return res.status(500).send(err.message || err);
     }
     res.json(news);
   });
 });
 
-app.listen(config.port);
+var server = app.listen(config.port, function() {
+  console.log("%s v%s listening on port %s", packageJson.name, packageJson.version, server.address().port);
+});
 
 
 

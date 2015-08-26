@@ -1,7 +1,6 @@
 'use strict';
 
 var watson = require('watson-developer-cloud');
-var logger = require('./logger.js');
 var config = require('./config.js');
 var personality_insights = watson.personality_insights(config.services.personality_insights);
 

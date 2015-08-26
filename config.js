@@ -2,8 +2,7 @@
 
 require('dotenv').load({silent: true});
 
-var bluemix  = require('./bluemix'),
-   extend   = require('extend');
+var extend = require('extend');
 
 var services = {
 
@@ -29,11 +28,26 @@ var services = {
  }
 };
 
+function getBluemixServiceConfig(name) {
+    var services = JSON.parse(process.env.VCAP_SERVICES);
+    for (var service_name in services) {
+        if (service_name.indexOf(name) === 0 ) {
+            var service = services[service_name][0];
+            return {
+                url: service.credentials.url,
+                username: service.credentials.username,
+                password: service.credentials.password
+            };
+        }
+    }
+    console.error('The service '+name+' is not in VCAP_SERVICES, did you forget to bind it?');
+    return {};
+}
 
 // Get the service credentials from bluemix if we're
 if (process.env.VCAP_SERVICES) {
- services.mongodb = bluemix.serviceStartsWith('mongodb').url;
- services.personality_insights = extend({'version':'v2'}, bluemix.serviceStartsWith('personality_insights'));
+ services.mongodb = getBluemixServiceConfig('mongodb').url;
+ services.personality_insights = extend({'version':'v2'}, getBluemixServiceConfig('personality_insights'));
 }
 
 module.exports = {
