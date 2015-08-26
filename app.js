@@ -66,7 +66,7 @@ app.get('/personality_insights/:id', function(req, res) {
 });
 
 app.get('/news/:id', function(req, res) {
-  watson.getNewsAbout(id, function(err, news) {
+  watson.getNewsAbout(req.params.id, function(err, news) {
     if (!err) {
       console.log('error:', err);
       res.status(500).send(err.message || err);
