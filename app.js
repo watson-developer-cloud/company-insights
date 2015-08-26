@@ -9,10 +9,8 @@ var twitterClient = require('./twitter.js');
 
 var watson = require('./watson.js');
 
-app.get('/', function (req, res) {
-  res.send('Hello World')
-});
- 
+app.use(express.static(__dirname + '/dist'));
+
 app.get('/tweets/:id', function(req, res) {
   twitterClient.getTweets(req.params.id, function(error, tweets){
     if (!error) {
