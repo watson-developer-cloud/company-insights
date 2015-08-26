@@ -75,7 +75,7 @@ app.get('/personality_insights/:id', function(req, res) {
   });
 });
 
-app.listen(8080);
+app.listen(config.port);
 
 var englishAndNoRetweet = function(tweet) {
   return tweet.lang === 'en' && !tweet.retweeted;
