@@ -1,12 +1,12 @@
-var Twitter = require('twitter');
+
 var express = require('express');
 var watson = require('watson-developer-cloud');
 var logger = require('./logger.js');
 var config = require('./config.js');
 
-var app = express()
+var app = express();
 
-var twitterClient = new Twitter(config.services.twitter);
+var twitterClient = require('./twitter.js');
 
 var personality_insights = watson.personality_insights(config.services.personality_insights);
 
@@ -17,20 +17,20 @@ app.get('/', function (req, res) {
 });
  
 app.get('/tweets/:id', function(req, res) {
-  var params = {screen_name: req.params.id};
-  twitterClient.get('statuses/user_timeline', params, function(error, tweets, response){
+  twitterClient.getTweets(req.params.id, function(error, tweets){
     if (!error) {
       res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
       res.end(JSON.stringify(tweets));
     } else {
+      console.error(error);
       res.writeHead(500, {'Content-Type': 'text/plain; charset=utf-8'});
-      res.end(error.stack);
+      res.end(error.stack || error.message);
     }
   });
 });
 
 app.get('/getalltweets/:id', function(req, res) {
-  getAllTweets(req.params.id, function(error, tweets) {
+  twitterClient.getAllTweets(req.params.id, function(error, tweets) {
     if (!error) {
       res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
 
@@ -47,34 +47,32 @@ app.get('/getalltweets/:id', function(req, res) {
 });
 
 app.get('/personality_insights/:id', function(req, res) {
-  getAllTweets(req.params.id, function(error, tweets) {
-    if (!error) {
-      // concat all tweets to a single string
-      var tweetText = tweets.map(function(tweet) {
-        return tweet.content;
-      }).join(' ');
-      // personality insights with the concatenated text
-      personality_insights.profile(
-        {
-          text: tweetText,
-          language: 'en'
-        },
-        function (err, response) {
-          if (!err) {
-            res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
-            res.end(JSON.stringify(response));
-          } else {
-            console.log('error:', err);
-            res.writeHead(500, {'Content-Type': 'text/plain; charset=utf-8'});
-            res.end(err.stack);
-          }
-        }
-      );
-    } else {
-      console.log('error:', err);
-      res.writeHead(500, {'Content-Type': 'text/plain; charset=utf-8'});
-      res.end(err.stack);
+  twitterClient.getAllTweets(req.params.id, function(error, tweets) {
+    if (error) {
+      console.error('error:', error);
+      return res.status(500).type('txt').end((error[0] || error).stack || (error[0] || error).message);
     }
+    // concat all tweets to a single string
+    var tweetText = tweets.map(function(tweet) {
+      return tweet.content;
+    }).join(' ');
+    // personality insights with the concatenated text
+    personality_insights.profile(
+      {
+        text: tweetText,
+        language: 'en'
+      },
+      function (err, response) {
+        if (!err) {
+          res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
+          res.end(JSON.stringify(response));
+        } else {
+          console.log('error:', err);
+          res.writeHead(500, {'Content-Type': 'text/plain; charset=utf-8'});
+          res.end(err.stack);
+        }
+      }
+    );
   });
 });
 
