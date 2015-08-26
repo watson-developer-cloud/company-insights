@@ -10,7 +10,6 @@ var twitterClient = require('./twitter.js');
 
 var personality_insights = watson.personality_insights(config.services.personality_insights);
 
-var MAX_COUNT = 200;
 
 app.get('/', function (req, res) {
   res.send('Hello World')

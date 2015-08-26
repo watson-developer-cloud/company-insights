@@ -5,6 +5,7 @@ var config = require('./config.js');
 
 var twitterClient = new Twitter(config.services.twitter);
 
+var MAX_COUNT = 200;
 
 var englishAndNoRetweet = function(tweet) {
     return tweet.lang === 'en' && !tweet.retweeted;
