@@ -8,8 +8,10 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Roboto:400,700,700italic,400italic);
 
 html {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Helvetica Neue', sans-serif;
+
 }
+
 
 [layout=row] {
   flex-direction: row;
@@ -31,17 +33,12 @@ html {
 }
 
 md-toolbar.md-default-theme {
-  background-color: black;
+  background-color: white;
 }
 
 section.jumbotron {
   margin-bottom: 30px;
   padding: 1px 30px;
-  background-color: #5aadbb;
-  text-align: center;
-
-  color: white;
-
   h1 {
     font-size: 3em;
   }
@@ -60,6 +57,46 @@ section.jumbotron {
     }
   }
 }
+
+navbar {
+  background: white;
+}
+
+.flat {
+  box-shadow: none;
+}
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+  }
+
+.chart {
+  div {
+    box-shadow: 0;
+  }
+}
+
+
+.md-padding {
+  background: #eeeeee;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hero {
+  background: #27c4f3;
+  color: white;
+  background-image: url(../assets/images/globe.png);
+  background-size: 50% auto;
+  background-repeat: no-repeat;
+  background-position: top right;
+  
+
+}
+
 
 /**
  *  Do not remove this comments bellow. It's the markers used by gulp-inject to inject

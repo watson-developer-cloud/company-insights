@@ -19,12 +19,6 @@
         templateUrl: 'app/home/home.html',
         controller: 'HomeController',
         controllerAs: 'homeCtrl'
-      })
-      .state('root.watson', {
-        url: '/watson',
-        templateUrl: 'app/watson/watson.html',
-        controller: 'WatsonController',
-        controllerAs: 'watsonCtrl'
       });
 
     $urlRouterProvider.otherwise('/root/home');

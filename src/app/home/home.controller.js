@@ -5,11 +5,9 @@
     .module('company-insights')
     .controller('HomeController', HomeController);
 
-  /** @ngInject */
-  function HomeController($state, $log) {
 
-    this.goWatsonAPI = function(){
-      $state.go('root.watson');
-    };
+  /** @ngInject */
+  function HomeController($log) {
+    this.data = [10,20,30,40,60, 80, 20, 50];
   }
 })();
