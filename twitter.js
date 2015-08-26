@@ -20,6 +20,26 @@ function toContentItem(tweet) {
   };
 }
 
+// function getMentions(params, callback) {
+//   if (typeof params == "string") {
+//     params = {screen_name: params};
+//   }
+//   twitterClient.get('statuses/user_timeline', params, function(errors, tweets){
+//     if (errors) {
+//       // twitter likes to send back an array of objects that aren't actually Error instances.. and there's usually just one object
+//       if (!Array.isArray(errors)) {
+//         errors = [errors];
+//       }
+//       var messages = errors.map(function(err){ return err.message }).join('\n');
+//       var e = new Error(messages);
+//       e.code = errors[0].code;
+//       e.errors = errors;
+//       return callback(e)
+//     }
+//     callback(null, tweets)
+//   });
+// }
+
 function getTweets(params, callback) {
   if (typeof params == "string") {
     params = {screen_name: params};

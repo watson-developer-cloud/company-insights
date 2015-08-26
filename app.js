@@ -11,6 +11,16 @@ var watson = require('./watson.js');
 
 app.use(express.static(__dirname + '/dist'));
 
+app.get('/mentions/:id', function(req, res) {
+  twitterClient.getTweets(req.params.id, function(error, tweets) {
+    if (error) {
+      console.error('error:', error);
+      return res.status(500).end(error.message || error);
+    }
+    res.send(tweets);
+  });
+});
+
 app.get('/personality_insights/:id', function(req, res) {
   twitterClient.getAllTweets(req.params.id, function(error, tweets) {
     if (error) {
@@ -39,7 +49,7 @@ app.get('/news/:id', function(req, res) {
       console.log('error:', err);
       return res.status(500).send(err.message || err);
     }
-    res.json(news);
+    res.send(news);
   });
 });
 

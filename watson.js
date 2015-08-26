@@ -3,7 +3,7 @@
 var watson = require('watson-developer-cloud');
 var config = require('./config.js');
 var personality_insights = watson.personality_insights(config.services.personality_insights);
-
+var request = require('request');
 
 
 
@@ -34,7 +34,22 @@ var extractBig5 = function(tree) {
 // docs: http://docs.alchemyapi.com/
 
 function getNewsAbout(id, callback) {
-    callback(new Error('not implemented'));
+    var url = config.services.alchemy_news_url;
+    var params = {
+        'apikey': config.services.alchemy_api_key,
+        'outputMode': 'json',
+        'start': 'now-1d',
+        'end': 'now',
+        'q.enriched.url.enrichedTitle.entities.entity': '|text=' + id + ',type=company|',
+        'return': 'enriched.url.url,enriched.url.title,enriched.url.image,enriched.url.language,enriched.url.publicationDate'
+    };
+    request({url: url, qs: params}, function(error, response, body) {
+        if (error) {
+            return callback(error);
+        }
+        console.log(body);
+        callback(null, body);
+    });
 }
 
 
