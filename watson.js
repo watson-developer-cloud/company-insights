@@ -38,8 +38,9 @@ function getNewsAbout(id, callback) {
     var params = {
         'apikey': config.services.alchemy_api_key,
         'outputMode': 'json',
-        'start': 'now-1d',
+        'start': 'now-14d',
         'end': 'now',
+        'count': '5',
         'q.enriched.url.enrichedTitle.entities.entity': '|text=' + id + ',type=company|',
         'return': 'enriched.url.url,enriched.url.title,enriched.url.image,enriched.url.language,enriched.url.publicationDate'
     };
@@ -48,7 +49,7 @@ function getNewsAbout(id, callback) {
             return callback(error);
         }
         console.log(body);
-        callback(null, body);
+        callback(null, JSON.parse(body));
     });
 }
 

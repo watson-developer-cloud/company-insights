@@ -20,25 +20,37 @@ function toContentItem(tweet) {
   };
 }
 
-// function getMentions(params, callback) {
-//   if (typeof params == "string") {
-//     params = {screen_name: params};
-//   }
-//   twitterClient.get('statuses/user_timeline', params, function(errors, tweets){
-//     if (errors) {
-//       // twitter likes to send back an array of objects that aren't actually Error instances.. and there's usually just one object
-//       if (!Array.isArray(errors)) {
-//         errors = [errors];
-//       }
-//       var messages = errors.map(function(err){ return err.message }).join('\n');
-//       var e = new Error(messages);
-//       e.code = errors[0].code;
-//       e.errors = errors;
-//       return callback(e)
-//     }
-//     callback(null, tweets)
-//   });
-// }
+function getName(screen_name, callback) {
+  var params = {screen_name: screen_name};
+  twitterClient.get('users/show', params, function(error, userInfo){
+    if (error) {
+      console.log(error);
+      return callback(error);
+    }
+    callback(null, userInfo['name']);
+  });
+}
+
+function getMentions(handle, callback) {
+  params = {q: '@'+handle};
+  twitterClient.get('search/tweets', params, function(error, tweets){
+    if (error) {
+      // twitter likes to send back an array of objects that aren't actually Error instances.. and there's usually just one object
+      if (!Array.isArray(error)) {
+        error = [error];
+      }
+      var messages = error.map(function(err){ return err.message }).join('\n');
+      var e = new Error(messages);
+      e.code = error[0].code;
+      e.error = error;
+      return callback(e)
+    }
+    _tweets = tweets['statuses']
+      .filter(englishAndNoRetweet)
+      .map(toContentItem);
+    callback(null, _tweets)
+  });
+}
 
 function getTweets(params, callback) {
   if (typeof params == "string") {
@@ -92,5 +104,7 @@ function getAllTweets(screen_name, callback, previousParams, current) {
   getTweets(params, processTweets);
 }
 
+module.exports.getName = getName;
+module.exports.getMentions = getMentions;
 module.exports.getTweets = getTweets;
 module.exports.getAllTweets = getAllTweets;
