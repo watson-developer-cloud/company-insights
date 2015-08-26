@@ -1,5 +1,8 @@
 var Twitter = require('twitter');
+
+var logger = require('./logger.js');
 var config = require('./config.js');
+
 var twitterClient = new Twitter(config.services.twitter);
 
 var MAX_COUNT = 200;
@@ -41,6 +44,8 @@ function getTweets(params, callback) {
 }
 
 function getAllTweets(screen_name, callback, previousParams, current) {
+  logger.info('getTweets for:', screen_name);
+
   var tweets = current || [],
     params = previousParams || {
         screen_name: screen_name,
@@ -59,6 +64,7 @@ function getAllTweets(screen_name, callback, previousParams, current) {
       .map(toContentItem);
 
     tweets = tweets.concat(items);
+    logger.info(screen_name,'_tweets.count:',tweets.length);
     if (_tweets.length > 1) {
       params.max_id = _tweets[_tweets.length-1].id - 1;
       getAllTweets(screen_name, callback, params, tweets);
