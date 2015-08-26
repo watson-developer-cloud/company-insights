@@ -1,0 +1,5 @@
+node_modules/
+.tmp/
+e2e/
+gulp/ # todo: either make bluemix compile front-end assets. For now, upload the dist/ folder instead of gulp/
+# todo: figure out how to auto-install bower components on bluemix. For now, just upload the bower_components/ folder

@@ -1,0 +1,13 @@
+---
+declared-services:
+  my_personality_insights:
+    label: personality_insights
+    plan: standard
+
+applications:
+- name: company-insights
+  command: npm start
+  path: .
+  memory: 512M
+  services:
+  - my_personality_insights
