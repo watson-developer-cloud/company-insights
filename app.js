@@ -10,11 +10,8 @@ var twitterClient = require('./twitter.js');
 
 var personality_insights = watson.personality_insights(config.services.personality_insights);
 
+app.use(express.static(__dirname + '/dist'));
 
-app.get('/', function (req, res) {
-  res.send('Hello World')
-});
- 
 app.get('/tweets/:id', function(req, res) {
   twitterClient.getTweets(req.params.id, function(error, tweets){
     if (!error) {
@@ -75,7 +72,7 @@ app.get('/personality_insights/:id', function(req, res) {
   });
 });
 
-app.listen(config.port);
+app.listen(8080);
 
 var englishAndNoRetweet = function(tweet) {
   return tweet.lang === 'en' && !tweet.retweeted;
@@ -97,7 +94,7 @@ function getAllTweets(screen_name, callback, previousParams, current) {
   logger.info('getTweets for:', screen_name);
 
   var tweets = current || [],
-      params = previousParams || {
+    params = previousParams || {
         screen_name: screen_name,
         count: MAX_COUNT,
         exclude_replies: true,
@@ -110,8 +107,8 @@ function getAllTweets(screen_name, callback, previousParams, current) {
       return callback(error);
 
     var items = _tweets
-    .filter(englishAndNoRetweet)
-    .map(toContentItem);
+      .filter(englishAndNoRetweet)
+      .map(toContentItem);
 
     tweets = tweets.concat(items);
     logger.info(screen_name,'_tweets.count:',tweets.length);
