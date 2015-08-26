@@ -11,36 +11,6 @@ var watson = require('./watson.js');
 
 app.use(express.static(__dirname + '/dist'));
 
-app.get('/tweets/:id', function(req, res) {
-  twitterClient.getTweets(req.params.id, function(error, tweets){
-    if (!error) {
-      res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
-      res.end(JSON.stringify(tweets));
-    } else {
-      console.error(error);
-      res.writeHead(500, {'Content-Type': 'text/plain; charset=utf-8'});
-      res.end(error.stack || error.message);
-    }
-  });
-});
-
-app.get('/getalltweets/:id', function(req, res) {
-  twitterClient.getAllTweets(req.params.id, function(error, tweets) {
-    if (!error) {
-      res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
-
-      // concat all tweets to a single string
-      var tweetText = tweets.map(function(tweet) {
-        return tweet.content;
-      }).join(' ');
-      res.end(tweetText);
-    } else {
-      res.writeHead(500, {'Content-Type': 'text/plain; charset=utf-8'});
-      res.end(error.stack);
-    }
-  });
-});
-
 app.get('/personality_insights/:id', function(req, res) {
   twitterClient.getAllTweets(req.params.id, function(error, tweets) {
     if (error) {
