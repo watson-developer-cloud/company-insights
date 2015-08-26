@@ -10,6 +10,7 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
+    "dotenv": "^1.2.0",
     "express": "^4.13.3",
     "extend": "^3.0.0",
     "twitter": "^1.2.5",
