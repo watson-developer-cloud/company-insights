@@ -7,7 +7,7 @@ var watson = require('./watson.js');
 
 var app = express();
 
-app.use(express.static(__dirname + '/dist'));
+app.use(express.static(__dirname + '/../../dist'));
 
 app.get('/mentions_sentiment/:id', function(req, res) {
   console.time("mentions");
