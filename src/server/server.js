@@ -59,8 +59,12 @@ app.get('/personality_insights/:id', function(req, res) {
 app.get('/news/:id', function(req, res) {
   console.time("twitterName");
   twitter.getName(req.params.id, function(error, name) {
-  
     console.timeEnd("twitterName");
+
+    if (error) {
+        console.error('error:', error);
+        return res.status(500).send(error.message || error.error || error);
+    }
 
     console.time("getnews");
     watson.getNewsAbout(name, function(err, news) {

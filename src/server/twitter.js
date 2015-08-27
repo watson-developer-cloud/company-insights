@@ -33,25 +33,38 @@ function getName(screen_name, callback) {
 }
 
 function getMentions(handle, callback) {
-  params = {q: '@'+handle, count: 100, lang: 'en'};
-  twitterClient.get('search/tweets', params, function(error, tweets){
+  console.time("twitterName");
+  getName(handle, function(error, name) {
+    console.timeEnd("twitterName");
+    
     if (error) {
-      // twitter likes to send back an array of objects that aren't actually Error instances.. and there's usually just one object
-      if (!Array.isArray(error)) {
-        error = [error];
-      }
-      var messages = error.map(function(err){ return err.message }).join('\n');
-      var e = new Error(messages);
-      e.code = error[0].code;
-      e.error = error;
-      return callback(e)
+        console.error('error:', error);
+        return res.status(500).send(error.message || error.error || error);
     }
 
-    _tweets = tweets['statuses']
-      .filter(englishAndNoRetweet)
-      .map(toContentItem);
-    callback(null, toText(_tweets))
-  });
+    params = {q: '@'+handle + ' OR "' + name + '"', count: 100, lang: 'en'};
+
+    console.log(params);
+
+    twitterClient.get('search/tweets', params, function(error, tweets){
+      if (error) {
+        // twitter likes to send back an array of objects that aren't actually Error instances.. and there's usually just one object
+        if (!Array.isArray(error)) {
+          error = [error];
+        }
+        var messages = error.map(function(err){ return err.message }).join('\n');
+        var e = new Error(messages);
+        e.code = error[0].code;
+        e.error = error;
+        return callback(e)
+      }
+
+      _tweets = tweets['statuses']
+        .filter(englishAndNoRetweet)
+        .map(toContentItem);
+      callback(null, toText(_tweets))
+    });
+  })
 }
 
 function getTweets(params, callback) {
