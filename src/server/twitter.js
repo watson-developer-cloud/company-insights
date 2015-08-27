@@ -6,7 +6,7 @@ var MAX_COUNT = 200;
 var minWordCount = 6000; // recommended minimum words for personality insights
 
 var englishAndNoRetweet = function(tweet) {
-  return tweet.lang === 'en' && !tweet.retweeted;
+  return tweet.lang === 'en' && !(tweet.retweeted || tweet.text.lastIndexOf('RT ', 0) == 0);
 };
 
 function toContentItem(tweet) {
@@ -18,7 +18,6 @@ function toContentItem(tweet) {
     contenttype: 'text/plain',
     content: tweet.text.replace('[^(\\x20-\\x7F)]*',''),
     created: Date.parse(tweet.created_at),
-    retweeted: tweet.retweeted
   };
 }
 
@@ -34,7 +33,7 @@ function getName(screen_name, callback) {
 }
 
 function getMentions(handle, callback) {
-  params = {q: '@'+handle, count: 100};
+  params = {q: '@'+handle, count: 100, lang: 'en'};
   twitterClient.get('search/tweets', params, function(error, tweets){
     if (error) {
       // twitter likes to send back an array of objects that aren't actually Error instances.. and there's usually just one object
@@ -103,7 +102,7 @@ function getAllTweets(screen_name, callback, previousParams, wordCount, current)
         return item.content.match(/\S+/g).length;
       }).reduce(function(a,b) {
           return a + b;
-      })
+      });
 
       console.log('count: ' + count);
 
