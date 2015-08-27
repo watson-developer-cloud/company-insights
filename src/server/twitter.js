@@ -1,8 +1,5 @@
 var Twitter = require('twitter');
-
-var logger = require('./logger.js');
 var config = require('./config.js');
-
 var twitterClient = new Twitter(config.services.twitter);
 
 var MAX_COUNT = 200;
@@ -19,8 +16,41 @@ function toContentItem(tweet) {
     language: 'en',
     contenttype: 'text/plain',
     content: tweet.text.replace('[^(\\x20-\\x7F)]*',''),
-    created: Date.parse(tweet.created_at)
+    created: Date.parse(tweet.created_at),
+    retweeted: tweet.retweeted
   };
+}
+
+function getName(screen_name, callback) {
+  var params = {screen_name: screen_name};
+  twitterClient.get('users/show', params, function(error, userInfo){
+    if (error) {
+      console.log(error);
+      return callback(error);
+    }
+    callback(null, userInfo['name']);
+  });
+}
+
+function getMentions(handle, callback) {
+  params = {q: '@'+handle};
+  twitterClient.get('search/tweets', params, function(error, tweets){
+    if (error) {
+      // twitter likes to send back an array of objects that aren't actually Error instances.. and there's usually just one object
+      if (!Array.isArray(error)) {
+        error = [error];
+      }
+      var messages = error.map(function(err){ return err.message }).join('\n');
+      var e = new Error(messages);
+      e.code = error[0].code;
+      e.error = error;
+      return callback(e)
+    }
+    _tweets = tweets['statuses']
+      .filter(englishAndNoRetweet)
+      .map(toContentItem);
+    callback(null, toText(_tweets))
+  });
 }
 
 function getTweets(params, callback) {
@@ -44,8 +74,6 @@ function getTweets(params, callback) {
 }
 
 function getAllTweets(screen_name, callback, previousParams, current) {
-  logger.info('getTweets for:', screen_name);
-
   var tweets = current || [],
     params = previousParams || {
         screen_name: screen_name,
@@ -64,19 +92,27 @@ function getAllTweets(screen_name, callback, previousParams, current) {
       .map(toContentItem);
 
     tweets = tweets.concat(items);
-    logger.info(screen_name,'_tweets.count:',tweets.length);
     if (_tweets.length > 1) {
       params.max_id = _tweets[_tweets.length-1].id - 1;
       getAllTweets(screen_name, callback, params, tweets);
     } else {
       // return tweets in order they were posted
       tweets.reverse();
-      callback(null, tweets);
+      callback(null, toText(tweets));
     }
   };
 
   getTweets(params, processTweets);
 }
 
+// concat all tweets to a single string
+function toText(tweets) {
+  return tweets.map(function(tweet) {
+    return tweet.content;
+  }).join('\n');
+}
+
+module.exports.getName = getName;
+module.exports.getMentions = getMentions;
 module.exports.getTweets = getTweets;
 module.exports.getAllTweets = getAllTweets;
