@@ -17,7 +17,7 @@ function toContentItem(tweet) {
     language: 'en',
     contenttype: 'text/plain',
     content: tweet.text.replace('[^(\\x20-\\x7F)]*',''),
-    created: Date.parse(tweet.created_at),
+    created: Date.parse(tweet.created_at)
   };
 }
 
@@ -36,23 +36,20 @@ function getMentions(handle, callback) {
   console.time("twitterName");
   getName(handle, function(error, name) {
     console.timeEnd("twitterName");
-    
-    if (error) {
-        console.error('error:', error);
-        return res.status(500).send(error.message || error.error || error);
-    }
 
-    params = {q: '@'+handle + ' OR "' + name + '"', count: 100, lang: 'en'};
+    params = {q: '@' + handle + ' OR "' + name + '"', count: 100, lang: 'en'};
 
     console.log(params);
 
-    twitterClient.get('search/tweets', params, function(error, tweets){
+    twitterClient.get('search/tweets', params, function (error, tweets) {
       if (error) {
         // twitter likes to send back an array of objects that aren't actually Error instances.. and there's usually just one object
         if (!Array.isArray(error)) {
           error = [error];
         }
-        var messages = error.map(function(err){ return err.message }).join('\n');
+        var messages = error.map(function (err) {
+          return err.message
+        }).join('\n');
         var e = new Error(messages);
         e.code = error[0].code;
         e.error = error;
@@ -64,7 +61,7 @@ function getMentions(handle, callback) {
         .map(toContentItem);
       callback(null, toText(_tweets))
     });
-  })
+  });
 }
 
 function getTweets(params, callback) {

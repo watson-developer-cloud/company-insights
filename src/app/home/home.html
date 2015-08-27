@@ -1,7 +1,7 @@
 <!-- NAVBAR -->
 <navbar style="background: white; margin: 10px;">
     <div flex="100">
-        <img ui-sref="root.home" src="assets/images/watson-world.png" width="40px" ui-sref="root.watson" class="md-raised" ng-click="homeCtrl.goWatsonAPI()" />
+        <img ui-sref="root.home" src="assets/images/watson-world.png" width="40px" class="md-raised" />
         <img ui-sref="root.home" src="assets/images/watson.png" width="160px" style="position:relative;top:-5px;" />
         <!-- <div flex="10" layout="column" layout-align="end">IBM.com</div>-->
     </div>
@@ -30,14 +30,14 @@
             <div flex layout="row" class="inputs">
                 <md-input-container flex>
                     <label>@Dropbox</label>
-                    <input ng-model="user.title">
+                    <input ng-model="homeCtrl.mainCompany" type="text"/>
                 </md-input-container>
-                <md-button>Analyze</md-button>
+                <md-button ng-click="homeCtrl.analyze()">Analyze</md-button>
             </div>
             <div flex layout="row" class="inputs">
                 <md-input-container flex>
                     <label>Enter and add handle to compare</label>
-                    <input ng-model="user.email" type="email">
+                    <input ng-model="user.email" type="text"/>
                 </md-input-container>
                 <md-button>Add</md-button>
             </div>
@@ -54,11 +54,11 @@
 <md-content class="md-padding">
     <div class="container">
         <h2>Personality Insights</h2>
-       
+
             <md-card>
-                <bars-chart chart-data="homeCtrl.data"></bars-chart>
+                <bars-chart chart-data="homeCtrl.chartData"></bars-chart>
             </md-card>
-      
+
     </div>
 </md-content>
 <!-- PERSONALITY INSIGHTS AREA END -->

@@ -12,7 +12,6 @@ app.use(express.static(__dirname + '/../../dist'));
 app.get('/mentions_sentiment/:id', function(req, res) {
   console.time("mentions");
   twitter.getMentions(req.params.id, function(error, tweetText) {
-    
     console.timeEnd("mentions");
 
     if (error) {

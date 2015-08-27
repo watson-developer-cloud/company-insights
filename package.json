@@ -15,7 +15,8 @@
     "extend": "^3.0.0",
     "request": "^2.61.0",
     "twitter": "^1.2.5",
-    "watson-developer-cloud": "^0.9.29"
+    "watson-developer-cloud": "^0.9.29",
+    "winston": "^1.0.1"
   },
   "devDependencies": {
     "browser-sync": "~2.7.12",

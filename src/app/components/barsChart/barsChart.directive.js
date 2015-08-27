@@ -17,16 +17,15 @@
 
     /** @ngInject */
     function BarsChart(scope, element, attrs) {
-      var chart = d3.select(element[0]);
-      //to our original directive markup bars-chart
-      //we add a div with out chart stling and bind each
-      //data entry to the chart
-      chart.append("div").attr("class", "chart")
-        .selectAll('div')
-        .data(scope.data).enter().append("div")
-        .transition().ease("elastic")
-        .style("width", function(d) { return d + "%"; })
-        .text(function(d) { return d + "%"; });
+      scope.$watch('data', function(){
+        var chart = d3.select(element[0]);
+        chart.append("div").attr("class", "chart")
+          .selectAll('div')
+          .data(scope.data).enter().append("div")
+          .transition().ease("elastic")
+          .style("width", function(d) { return d + "%"; })
+          .text(function(d) { return d + "%"; });
+      });
     }
   }
 
