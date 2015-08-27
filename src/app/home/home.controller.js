@@ -7,7 +7,19 @@
 
 
   /** @ngInject */
-  function HomeController($log) {
-    this.data = [10,20,30,40,60, 80, 20, 50];
+  function HomeController(personalityInsight) {
+
+    var _this = this;
+    this.mainCompany = null;
+    this.chartData = [];
+
+    this.analyze = function(){
+      personalityInsight
+        .analyze(this.mainCompany)
+        .then(function(data){
+          _this.chartData = data;
+        });
+    };
+
   }
 })();

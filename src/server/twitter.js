@@ -3,6 +3,7 @@ var config = require('./config.js');
 var twitterClient = new Twitter(config.services.twitter);
 
 var MAX_COUNT = 200;
+var minWordCount = 6000; // recommended minimum words for personality insights
 
 var englishAndNoRetweet = function(tweet) {
   return tweet.lang === 'en' && !tweet.retweeted;
@@ -33,7 +34,7 @@ function getName(screen_name, callback) {
 }
 
 function getMentions(handle, callback) {
-  params = {q: '@'+handle};
+  params = {q: '@'+handle, count: 100};
   twitterClient.get('search/tweets', params, function(error, tweets){
     if (error) {
       // twitter likes to send back an array of objects that aren't actually Error instances.. and there's usually just one object
@@ -46,6 +47,7 @@ function getMentions(handle, callback) {
       e.error = error;
       return callback(e)
     }
+
     _tweets = tweets['statuses']
       .filter(englishAndNoRetweet)
       .map(toContentItem);
@@ -57,7 +59,9 @@ function getTweets(params, callback) {
   if (typeof params == "string") {
     params = {screen_name: params};
   }
+  console.time("getTweets");
   twitterClient.get('statuses/user_timeline', params, function(errors, tweets){
+    console.timeEnd("getTweets");
     if (errors) {
       // twitter likes to send back an array of objects that aren't actually Error instances.. and there's usually just one object
       if (!Array.isArray(errors)) {
@@ -73,7 +77,7 @@ function getTweets(params, callback) {
   });
 }
 
-function getAllTweets(screen_name, callback, previousParams, current) {
+function getAllTweets(screen_name, callback, previousParams, wordCount, current) {
   var tweets = current || [],
     params = previousParams || {
         screen_name: screen_name,
@@ -81,6 +85,8 @@ function getAllTweets(screen_name, callback, previousParams, current) {
         exclude_replies: true,
         trim_user:true
       };
+
+  var wordCount = wordCount || 0;
 
   var processTweets = function(error, _tweets) {
     // Check if _tweets its an error
@@ -92,9 +98,27 @@ function getAllTweets(screen_name, callback, previousParams, current) {
       .map(toContentItem);
 
     tweets = tweets.concat(items);
-    if (_tweets.length > 1) {
+    if (_tweets.length >= 1) {
+      var count = items.map(function(item) {
+        return item.content.match(/\S+/g).length;
+      }).reduce(function(a,b) {
+          return a + b;
+      })
+
+      console.log('count: ' + count);
+
+      wordCount += count;
+
+      console.log('total so far: ' + wordCount);
+
+      if (wordCount >= minWordCount) {
+        // return tweets in order they were posted
+        tweets.reverse();
+        return callback(null, toText(tweets));
+      }
+
       params.max_id = _tweets[_tweets.length-1].id - 1;
-      getAllTweets(screen_name, callback, params, tweets);
+      getAllTweets(screen_name, callback, params, wordCount, tweets);
     } else {
       // return tweets in order they were posted
       tweets.reverse();
