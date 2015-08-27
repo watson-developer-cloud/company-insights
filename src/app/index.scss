@@ -5,8 +5,6 @@
 // bower:scss
 // endbower
 
-@import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Roboto:400,700,700italic,400italic);
-
 html {
   font-family: 'Helvetica Neue', sans-serif;
 
@@ -70,11 +68,6 @@ navbar {
     font-weight: normal;
   }
 
-.chart {
-  div {
-    box-shadow: 0;
-  }
-}
 
 
 .md-padding {
@@ -93,10 +86,82 @@ navbar {
   background-size: 50% auto;
   background-repeat: no-repeat;
   background-position: top right;
-  
+
+  h1 {
+    margin-top: 10%;
+  }
+
+  .md-button {
+    border: 2px solid white;
+  }
 
 }
 
+.bk-image {
+  background-size: cover;
+  height: 100px;
+  padding: 0px;
+}
+
+.bk-image.one {
+  background:  url(../assets/images/1.jpg);
+}
+
+.bk-image.two {
+  background:  url(../assets/images/2.jpg);
+}
+
+.bk-image.three {
+  background:  url(../assets/images/3.jpg);
+}
+
+
+a.md-button, .md-button {
+  border-radius: 0;
+}
+
+
+md-input-container .md-input {
+  border-bottom-width: 2px;
+}
+md-content {
+  .inputs {
+    max-width: 500px;
+
+    .md-button {
+      background: #27c4f3;
+      color: white;
+      height: 40px;
+      margin: 10px 0 0 0;
+    }
+  }
+
+  .inputs:nth-child(2) {
+    padding-bottom: 0;
+  }
+
+  .companies {
+    padding-top: 0;
+    .md-button {
+      margin-top: 0;
+      border-radius: 15px;
+      text-transform: initial;
+      .x {
+        font-weight: bold;
+        padding: 0 10px;
+      }
+    }
+  }
+}
+
+h2 {
+color: #084265;
+}
+
+md-input-container:not(.md-input-invalid).md-input-focused .md-input, md-input-container:not(.md-input-invalid).md-input-focused label {
+  border-color: #27c4f3;
+  color: #27c4f3;
+}
 
 /**
  *  Do not remove this comments bellow. It's the markers used by gulp-inject to inject
