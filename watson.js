@@ -3,6 +3,7 @@
 var watson = require('watson-developer-cloud');
 var config = require('./config.js');
 var personality_insights = watson.personality_insights(config.services.personality_insights);
+var alchemy_language = watson.alchemy_language({api_key: config.services.alchemy_api_key});
 var request = require('request');
 
 
@@ -52,7 +53,7 @@ function getNewsAbout(name, callback) {
         if (news.status == 'ERROR') {
             var newsError = {
                 error: news.statusInfo
-            }
+            };
             console.log('error:', newsError);
             return callback(newsError);
         }
@@ -67,6 +68,18 @@ function getNewsAbout(name, callback) {
         callback(null, _news);
     });
 }
+
+function getSentiment(text, callback) {
+  var params = {text: text}
+  alchemy_language.sentiment(params, function(err, response) {
+    if (err) {
+      return callback(err);
+    }
+    callback(null, response.docSentiment);
+  });
+}
+
+module.exports.getSentiment = getSentiment;
 
 
 module.exports.getBig5PersonalityTraits = getBig5PersonalityTraits;

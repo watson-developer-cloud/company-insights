@@ -49,7 +49,7 @@ function getMentions(handle, callback) {
     _tweets = tweets['statuses']
       .filter(englishAndNoRetweet)
       .map(toContentItem);
-    callback(null, _tweets)
+    callback(null, toText(_tweets))
   });
 }
 
@@ -98,11 +98,18 @@ function getAllTweets(screen_name, callback, previousParams, current) {
     } else {
       // return tweets in order they were posted
       tweets.reverse();
-      callback(null, tweets);
+      callback(null, toText(tweets));
     }
   };
 
   getTweets(params, processTweets);
+}
+
+// concat all tweets to a single string
+function toText(tweets) {
+  return tweets.map(function(tweet) {
+    return tweet.content;
+  }).join('\n');
 }
 
 module.exports.getName = getName;
