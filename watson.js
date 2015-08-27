@@ -33,7 +33,7 @@ var extractBig5 = function(tree) {
 // base url: https://access.alchemyapi.com/
 // docs: http://docs.alchemyapi.com/
 
-function getNewsAbout(id, callback) {
+function getNewsAbout(name, callback) {
     var url = config.services.alchemy_news_url;
     var params = {
         'apikey': config.services.alchemy_api_key,
@@ -41,15 +41,30 @@ function getNewsAbout(id, callback) {
         'start': 'now-14d',
         'end': 'now',
         'count': '5',
-        'q.enriched.url.enrichedTitle.entities.entity': '|text=' + id + ',type=company|',
-        'return': 'enriched.url.url,enriched.url.title,enriched.url.image,enriched.url.language,enriched.url.publicationDate'
+        'q.enriched.url.enrichedTitle.entities.entity': '|text=' + name + ',type=company|',
+        'return': 'enriched.url.url,enriched.url.title,enriched.url.image'
     };
     request({url: url, qs: params}, function(error, response, body) {
         if (error) {
             return callback(error);
         }
-        console.log(body);
-        callback(null, JSON.parse(body));
+        var news = JSON.parse(body);
+        if (news.status == 'ERROR') {
+            var newsError = {
+                error: news.statusInfo
+            }
+            console.log('error:', newsError);
+            return callback(newsError);
+        }
+        var _news = news.result.docs.map(function(doc){
+            var entry = doc.source.enriched.url;
+            return {
+                image: entry.image,
+                url: entry.url,
+                title: entry.title
+            };
+        });
+        callback(null, _news);
     });
 }
 

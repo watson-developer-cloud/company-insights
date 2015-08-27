@@ -16,7 +16,8 @@ function toContentItem(tweet) {
     language: 'en',
     contenttype: 'text/plain',
     content: tweet.text.replace('[^(\\x20-\\x7F)]*',''),
-    created: Date.parse(tweet.created_at)
+    created: Date.parse(tweet.created_at),
+    retweeted: tweet.retweeted
   };
 }
 

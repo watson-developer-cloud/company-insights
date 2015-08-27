@@ -8,6 +8,7 @@ var services = {
 
  // http://www.alchemyapi.com/api/register.html
  alchemy_api_key: process.env.ALCHEMY_AIP_KEY || '<api_key>',
+ alchemy_news_url: process.env.ALCHEMY_NEWS_URL || '<alchemy_news_url>',
 
  // PI credentials are automatically loaded for bluemix apps with a bound personality insights service
  // For local testing, get credentials by creating a bluemix app, adding a PI service, and clicking Show Credentials
