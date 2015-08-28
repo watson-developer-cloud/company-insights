@@ -25,33 +25,35 @@ var services = {
     consumer_secret:    process.env.TWITTER_CONSUMER_SECRET || '<consumer_secret>',
     access_token_key:   process.env.TWITTER_ACCESS_TOKEN_KEY || '<access_token_key>',
     access_token_secret:process.env.TWITTER_ACCESS_TOKEN_SECRET || '<access_token_secret>'
-  }
+  },
+
+  redis: process.env.REDIS_URL || ''
 };
 
 function getBluemixServiceConfig(name) {
-    var services = JSON.parse(process.env.VCAP_SERVICES);
-    for (var service_name in services) {
-        if (service_name.indexOf(name) === 0) {
-            var service = services[service_name][0];
-            return {
-                url: service.credentials.url,
-                username: service.credentials.username,
-                password: service.credentials.password
-            };
-        }
+  var services = JSON.parse(process.env.VCAP_SERVICES);
+  for (var service_name in services) {
+    if (service_name.indexOf(name) === 0) {
+      var service = services[service_name][0];
+      return {
+        url: service.credentials.url,
+        username: service.credentials.username,
+        password: service.credentials.password
+      };
     }
-    console.error('The service '+name+' is not in VCAP_SERVICES, did you forget to bind it?');
-    return {};
+  }
+  console.error('The service '+name+' is not in VCAP_SERVICES, did you forget to bind it?');
+  return {};
 }
 
 // Get the service credentials from bluemix if we're
 if (process.env.VCAP_SERVICES) {
- services.mongodb = getBluemixServiceConfig('mongodb').url;
- services.personality_insights = extend({'version':'v2'}, getBluemixServiceConfig('personality_insights'));
+  services.mongodb = getBluemixServiceConfig('mongodb').url;
+  services.personality_insights = extend({'version':'v2'}, getBluemixServiceConfig('personality_insights'));
 }
 
 module.exports = {
- services: services,
- host: process.env.HOST || process.env.VCAP_APP_HOST ||'127.0.0.1',
- port: process.env.PORT || process.env.VCAP_APP_PORT || 8080
+  services: services,
+  host: process.env.HOST || process.env.VCAP_APP_HOST ||'127.0.0.1',
+  port: process.env.PORT || process.env.VCAP_APP_PORT || 8080
 };

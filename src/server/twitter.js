@@ -117,7 +117,7 @@ function getAllTweets(screen_name, callback, previousParams, wordCount, current)
       var count = items.map(function(item) {
         return item.content.match(/\S+/g).length;
       }).reduce(function(a,b) {
-          return a + b;
+        return a + b;
       });
 
       console.log('word count: ' + count);
