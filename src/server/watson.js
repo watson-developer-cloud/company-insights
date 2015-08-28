@@ -11,6 +11,7 @@ var request = require('request');
 function getBig5PersonalityTraits(text, callback) {
     personality_insights.profile({text: text, language: 'en'}, function (err, response) {
         if (err) {
+            console.log(err);
             return callback(err);
         }
         callback(null, extractBig5(response));

@@ -25,7 +25,9 @@ var services = {
     consumer_secret:    process.env.TWITTER_CONSUMER_SECRET || '<consumer_secret>',
     access_token_key:   process.env.TWITTER_ACCESS_TOKEN_KEY || '<access_token_key>',
     access_token_secret:process.env.TWITTER_ACCESS_TOKEN_SECRET || '<access_token_secret>'
-  }
+  },
+
+  redis: process.env.REDIS_URL || ''
 };
 
 function getBluemixServiceConfig(name) {

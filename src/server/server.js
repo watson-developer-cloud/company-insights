@@ -4,12 +4,14 @@ var packageJson = require('../../package.json');
 var config = require('./config.js');
 var twitter = require('./twitter.js');
 var watson = require('./watson.js');
+//var cache = require('./cache.js');
+var cache = require('express-redis-cache')({ client: require('redis-url').connect(config.services.redis), expires: 60 * 60 * 24 });
 
 var app = express();
 
 app.use(express.static(__dirname + '/../../dist'));
 
-app.get('/mentions_sentiment/:id', function(req, res) {
+app.get('/mentions_sentiment/:id', cache.route(), function(req, res) {
   console.time("mentions");
   twitter.getMentions(req.params.id, function(error, tweetText) {
     console.timeEnd("mentions");
@@ -31,7 +33,7 @@ app.get('/mentions_sentiment/:id', function(req, res) {
   });
 });
 
-app.get('/personality_insights/:id', function(req, res) {
+app.get('/personality_insights/:id', cache.route(), function(req, res) {
   console.time("alltweets");
   twitter.getAllTweets(req.params.id, function(error, tweetText) {
     console.timeEnd("alltweets");
@@ -54,7 +56,7 @@ app.get('/personality_insights/:id', function(req, res) {
   });
 });
 
-app.get('/news/:id', function(req, res) {
+app.get('/news/:id', cache.route(), function(req, res) {
   console.time("twitterName");
   twitter.getName(req.params.id, function(error, name) {
     console.timeEnd("twitterName");
