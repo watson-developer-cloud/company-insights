@@ -54,8 +54,15 @@ function getNewsAbout(name, callback) {
             var newsError = {
                 error: news.statusInfo
             };
-            console.log('error:', newsError);
+            console.error('error:', newsError);
             return callback(newsError);
+        }
+        // No news found
+        if (!news.result.docs) {
+            var emptyError = new Error("No news found for " + name);
+            emptyError.error = 'content-is-empty';
+            emptyError.code = 400;
+            return callback(emptyError);
         }
         var _news = news.result.docs.map(function(doc){
             var entry = doc.source.enriched.url;

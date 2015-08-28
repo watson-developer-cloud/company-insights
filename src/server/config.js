@@ -7,7 +7,7 @@ var extend = require('extend');
 var services = {
 
  // http://www.alchemyapi.com/api/register.html
- alchemy_api_key: process.env.ALCHEMY_AIP_KEY || '<api_key>',
+ alchemy_api_key: process.env.ALCHEMY_API_KEY || '<api_key>',
  alchemy_news_url: process.env.ALCHEMY_NEWS_URL || '<alchemy_news_url>',
 
  // PI credentials are automatically loaded for bluemix apps with a bound personality insights service

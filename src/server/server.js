@@ -12,7 +12,6 @@ app.use(express.static(__dirname + '/../../dist'));
 app.get('/mentions_sentiment/:id', function(req, res) {
   console.time("mentions");
   twitter.getMentions(req.params.id, function(error, tweetText) {
-
     console.timeEnd("mentions");
 
     if (error) {
@@ -35,7 +34,6 @@ app.get('/mentions_sentiment/:id', function(req, res) {
 app.get('/personality_insights/:id', function(req, res) {
   console.time("alltweets");
   twitter.getAllTweets(req.params.id, function(error, tweetText) {
-
     console.timeEnd("alltweets");
 
     if (error) {
@@ -48,7 +46,7 @@ app.get('/personality_insights/:id', function(req, res) {
     watson.getBig5PersonalityTraits(tweetText, function (err, big5) {
       console.timeEnd("personality");
       if (err) {
-        console.log('error:', err);
+        console.error('error:', err);
         return res.status(500).send(err.message || err.error || err);
       }
       res.json(big5);
@@ -59,17 +57,21 @@ app.get('/personality_insights/:id', function(req, res) {
 app.get('/news/:id', function(req, res) {
   console.time("twitterName");
   twitter.getName(req.params.id, function(error, name) {
-
     console.timeEnd("twitterName");
+
+    if (error) {
+        console.error('error:', error);
+        return res.status(500).end(error.message || error.error || error);
+    }
 
     console.time("getnews");
     watson.getNewsAbout(name, function(err, news) {
       console.timeEnd("getnews");
       if (err) {
-        console.log('error:', err);
+        console.error('error:', err);
         return res.status(500).send(err.message || err.error || err);
       }
-      res.end(JSON.stringify(news, null, 2));
+      res.json(news);
     });
   });
 });
