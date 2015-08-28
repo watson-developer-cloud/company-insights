@@ -12,7 +12,6 @@ app.use(express.static(__dirname + '/../../dist'));
 app.get('/mentions_sentiment/:id', function(req, res) {
   console.time("mentions");
   twitter.getMentions(req.params.id, function(error, tweetText) {
-
     console.timeEnd("mentions");
 
     if (error) {
@@ -59,8 +58,12 @@ app.get('/personality_insights/:id', function(req, res) {
 app.get('/news/:id', function(req, res) {
   console.time("twitterName");
   twitter.getName(req.params.id, function(error, name) {
-
     console.timeEnd("twitterName");
+
+    if (error) {
+        console.error('error:', error);
+        return res.status(500).send(error.message || error.error || error);
+    }
 
     console.time("getnews");
     watson.getNewsAbout(name, function(err, news) {
