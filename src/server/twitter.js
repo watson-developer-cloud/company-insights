@@ -60,7 +60,7 @@ function getMentions(handle, callback) {
       .map(toContentItem);
 
     if (_tweets.length == 0) {
-      var e = new Error('No mentions found for @' + handle);
+      var e = new Error('No suitable mentions found for @' + handle);
       e.error = 'content-is-empty';
       e.code = 400;
       return callback(e);
@@ -113,17 +113,15 @@ function getAllTweets(screen_name, callback, previousParams, wordCount, current)
       .map(toContentItem);
 
     tweets = tweets.concat(items);
-    if (_tweets.length >= 1) {
+    if (items.length >= 1) {
       var count = items.map(function(item) {
         return item.content.match(/\S+/g).length;
       }).reduce(function(a,b) {
           return a + b;
-      })
+      });
 
       console.log('word count: ' + count);
-
       wordCount += count;
-
       console.log('total so far: ' + wordCount);
 
       if (wordCount >= minWordCount) {
@@ -140,7 +138,7 @@ function getAllTweets(screen_name, callback, previousParams, wordCount, current)
       callback(null, toText(tweets));
     } else {
       // no tweets found
-      var e = new Error('No tweets found for @' + screen_name);
+      var e = new Error('No suitable tweets found for @' + screen_name);
       e.error = 'content-is-empty';
       e.code = 400;
       return callback(e);

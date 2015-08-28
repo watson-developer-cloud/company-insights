@@ -47,7 +47,7 @@ app.get('/personality_insights/:id', function(req, res) {
       console.timeEnd("personality");
       if (err) {
         console.error('error:', err);
-        return res.status(500).send(err.message || err.error || err);
+        return res.status(500).end(err.message || err.error || err);
       }
       res.json(big5);
     });
@@ -69,7 +69,7 @@ app.get('/news/:id', function(req, res) {
       console.timeEnd("getnews");
       if (err) {
         console.error('error:', err);
-        return res.status(500).send(err.message || err.error || err);
+        return res.status(500).end(err.message || err.error || err);
       }
       res.json(news);
     });
