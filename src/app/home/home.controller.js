@@ -32,7 +32,7 @@
       if (this.companiesToCompare.length == 7) {
         this.limitExceeded = true;
       } 
-      else if (this.companyToCompare == null || this.companyToCompare == "") {
+      else if (!this.companyToCompare) {
         this.invalidCompany = true;
       }
       else if (this.companiesToCompare.indexOf(this.companyToCompare) > -1) {
@@ -41,7 +41,7 @@
       else{
         this.companiesToCompare.push(this.companyToCompare);
         this.companyToCompare = null;
-      };
+      }
       
     };
 
@@ -54,12 +54,12 @@
       if (this.companiesToCompare.length == 7) {
         this.limitExceeded = true;
       } 
-      else if (this.companyToCompare == null || this.companyToCompare == "") {
+      else if (!this.companyToCompare) {
         this.invalidCompany = true;
       }
       else if (this.companiesToCompare.indexOf(this.companyToCompare) > -1) {
         this.existCompany = true;
-      };
+      }
       
     };
   }
