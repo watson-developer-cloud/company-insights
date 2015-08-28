@@ -26,8 +26,15 @@ function getName(screen_name, callback) {
   var params = {screen_name: screen_name};
   twitterClient.get('users/show', params, function(error, userInfo){
     if (error) {
-      console.log(error);
-      return callback(error);
+      // twitter likes to send back an array of objects that aren't actually Error instances.. and there's usually just one object
+      if (!Array.isArray(error)) {
+        error = [error];
+      }
+      var messages = error.map(function(err){ return err.message }).join('\n');
+      var e = new Error(messages);
+      e.code = error[0].code;
+      e.error = error;
+      return callback(e)
     }
     callback(null, userInfo['name']);
   });
@@ -51,6 +58,14 @@ function getMentions(handle, callback) {
     _tweets = tweets['statuses']
       .filter(englishAndNoRetweet)
       .map(toContentItem);
+
+    if (_tweets.length == 0) {
+      var e = new Error('No suitable mentions found for @' + handle);
+      e.error = 'content-is-empty';
+      e.code = 400;
+      return callback(e);
+    }
+
     callback(null, toText(_tweets))
   });
 }
@@ -98,17 +113,15 @@ function getAllTweets(screen_name, callback, previousParams, wordCount, current)
       .map(toContentItem);
 
     tweets = tweets.concat(items);
-    if (_tweets.length >= 1) {
+    if (items.length >= 1) {
       var count = items.map(function(item) {
         return item.content.match(/\S+/g).length;
       }).reduce(function(a,b) {
-          return a + b;
-      })
+        return a + b;
+      });
 
-      console.log('count: ' + count);
-
+      console.log('word count: ' + count);
       wordCount += count;
-
       console.log('total so far: ' + wordCount);
 
       if (wordCount >= minWordCount) {
@@ -119,10 +132,16 @@ function getAllTweets(screen_name, callback, previousParams, wordCount, current)
 
       params.max_id = _tweets[_tweets.length-1].id - 1;
       getAllTweets(screen_name, callback, params, wordCount, tweets);
-    } else {
+    } else if (tweets.length >= 1) {
       // return tweets in order they were posted
       tweets.reverse();
       callback(null, toText(tweets));
+    } else {
+      // no tweets found
+      var e = new Error('No suitable tweets found for @' + screen_name);
+      e.error = 'content-is-empty';
+      e.code = 400;
+      return callback(e);
     }
   };
 

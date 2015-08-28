@@ -9,46 +9,60 @@
   function personalityInsight($q, $http) {
 
     var service = {
-      analyze: function (name) {
-        var deferred = $q.defer();
+      chartDataCache: {},
+      chartData: {},
+      categories: ['Openness', 'Conscientiousness', 'Extraversion', 'Agreeableness', 'Emotional range'],
+      analyze: function (companies, index, defer) {
+        var deferred = defer || $q.defer();
+        var pos = index || 0;
+        if(pos === 0){
+          this.chartData = {};
+        }
         var _this = this;
-        $http
-          .get('/personality_insights/' + name)
-          .then(function (res) {
-            deferred.resolve(_this.toCharArray(res.data));
-          })
-          .catch(function (err) {
-            deferred.reject();
-          });
+
+        if(!angular.isUndefined(this.chartDataCache[companies[pos]])){
+          this.chartData[companies[pos]] = this.chartDataCache[companies[pos]];
+          if(pos >= companies.length-1){
+            deferred.resolve(this.getChart());
+          }else{
+            this.analyze(companies, pos+1, deferred);
+          }
+        }else{
+          $http
+            .get('/personality_insights/' + companies[pos])
+            .then(function (res) {
+              _this.chartDataCache[companies[pos]] = res.data;
+              _this.chartData[companies[pos]] = res.data;
+              if(pos >= companies.length-1){
+                deferred.resolve(_this.getChart());
+              }else{
+                _this.analyze(companies, pos+1, deferred);
+              }
+            })
+            .catch(function (err) {
+              deferred.reject();
+            });
+        }
         return deferred.promise;
       },
 
-      toCharArray: function (data) {
+      getChart: function () {
         var result = [];
+        var _this = this;
 
-        for (var i = 0; i < data.length; i++) {
-          switch (data[i].name) {
-            case 'Openness':
-              result[0] = Math.floor(data[i].value * 100);
-              break;
-            case 'Conscientiousness':
-              result[1] = Math.floor(data[i].value * 100);
-              break;
-            case 'Extraversion':
-              result[2] = Math.floor(data[i].value * 100);
-              break;
-            case 'Agreeableness':
-              result[3] = Math.floor(data[i].value * 100);
-              break;
-            case 'Emotional range':
-              result[4] = Math.floor(data[i].value * 100);
-              break;
-          }
+        for (var i = 0; i < this.categories.length; i++) {
+          angular.forEach(this.chartData, function(data) {
+            for (var j = 0; j < data.length; j++) {
+              if (data[j].name === _this.categories[i]) {
+                result.push(Math.floor(data[j].value * 100));
+              }
+            }
+          });
         }
         return result;
       }
-
     };
+
 
     return service;
   }
