@@ -48,9 +48,10 @@
 
       getChart: function () {
         var result = [];
+        var _this = this;
 
         this.categories.forEach(function(category) {
-          angular.forEach(this.chartData, function(data) {
+          angular.forEach(_this.chartData, function(data) {
             for (var j = 0; j < data.length; j++) {
               if (data[j].name === category) {
                 result.push(Math.floor(data[j].value * 100));

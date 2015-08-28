@@ -30,14 +30,14 @@
             <div flex layout="row" class="inputs">
                 <md-input-container flex>
                     <label>@Dropbox</label>
-                    <input ng-model="homeCtrl.mainCompany" type="text"/>
+                    <input ng-model="homeCtrl.mainCompany" twitter-account type="text"/>
                 </md-input-container>
                 <md-button ng-click="homeCtrl.analyze()">Analyze</md-button>
             </div>
             <div flex layout="row" class="inputs">
                 <md-input-container flex>
                     <label>Enter and add handle to compare</label>
-                    <input ng-keyup="homeCtrl.validateCompany()" ng-model="homeCtrl.companyToCompare" type="text"/>
+                    <input ng-keyup="homeCtrl.validateCompany()" twitter-account ng-model="homeCtrl.companyToCompare" type="text"/>
                     <div ng-messages>
                         <div ng-message ng-show="homeCtrl.existCompany">This Company already exists.</div>
                         <div ng-message ng-show="homeCtrl.invalidCompany">Please enter a Company.</div>

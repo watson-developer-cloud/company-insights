@@ -9,11 +9,7 @@
     "start": "node app.js",
     "test": "gulp test"
   },
-  "contributors": [
-    { "name" : "Sam Frons"},
-    { "name" : "Barney Rubble"},
-    { "name" : "Nathan Friedly", "url" : "http://nfriedly.com/"}
-  ],
+  "author": "",
   "license": "Apache-2.0",
   "dependencies": {
     "bower": "^1.5.2",
