@@ -22,7 +22,7 @@ For private projects, the simplest option is to put your API keys directly in `c
 For public projects, either store them in environment variables, or alternatively, create a file named `.env` like so:
 
 ```
-ALCHEMY_AIP_KEY=<api_key>
+ALCHEMY_API_KEY=<api_key>
 
 PERSONALITY_INSIGHTS_USERNAME=<username>
 PERSONALITY_INSIGHTS_PASSWORD=<password>
@@ -70,7 +70,7 @@ cf push
 Next set your [AlchemyAPI] and [Twitter] keys:
 
 ```sh
-cf set-env <app name from manifest.yml> ALCHEMY_AIP_KEY <api_key>
+cf set-env <app name from manifest.yml> ALCHEMY_API_KEY <api_key>
 cf set-env <app name from manifest.yml> TWITTER_CONSUMER_KEY <consumer_key>
 cf set-env <app name from manifest.yml> TWITTER_CONSUMER_SECRET <consumer_secret>
 cf set-env <app name from manifest.yml> TWITTER_ACCESS_TOKEN_KEY <access_token_key>
