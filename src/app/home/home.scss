@@ -1,0 +1,41 @@
+/*----- CompanyChips ------*/
+
+md-chips .md-chips {
+    box-shadow: none !important;
+}
+
+md-chips .md-chips.md-focused {
+    box-shadow: none !important;
+}
+
+md-chips .md-chip {
+    background: #27c4f3;
+    color: #fff;
+    height: 40px!important;
+    font-size: 16px;
+    line-height: 38px!important;
+}
+
+md-chips .md-chip .md-chip-remove-container {
+    margin-top: 3px;
+}
+
+md-chips .md-chip md-icon {
+    color: white;
+}
+
+.md-chip-input-container input {
+    display: none !important;
+}
+
+.personality-insights {
+    position: relative;
+}
+
+div .personality-insights-labels {
+    height: 100%;
+    min-height: 100%;
+    position: absolute;
+    padding: 0px 10px 32px 10px;
+    right: 20px;
+}
