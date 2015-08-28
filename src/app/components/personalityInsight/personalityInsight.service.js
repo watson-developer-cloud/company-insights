@@ -48,17 +48,16 @@
 
       getChart: function () {
         var result = [];
-        var _this = this;
 
-        for (var i = 0; i < this.categories.length; i++) {
+        this.categories.forEach(function(category) {
           angular.forEach(this.chartData, function(data) {
             for (var j = 0; j < data.length; j++) {
-              if (data[j].name === _this.categories[i]) {
+              if (data[j].name === category) {
                 result.push(Math.floor(data[j].value * 100));
               }
             }
           });
-        }
+        });
         return result;
       }
     };
