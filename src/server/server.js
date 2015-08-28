@@ -62,8 +62,8 @@ app.get('/news/:id', cache.route(), function(req, res) {
     console.timeEnd("twitterName");
 
     if (error) {
-        console.error('error:', error);
-        return res.status(500).end(error.message || error.error || error);
+      console.error('error:', error);
+      return res.status(500).end(error.message || error.error || error);
     }
 
     console.time("getnews");
@@ -81,4 +81,3 @@ app.get('/news/:id', cache.route(), function(req, res) {
 var server = app.listen(config.port, function() {
   console.log("%s v%s listening on port %s", packageJson.name, packageJson.version, server.address().port);
 });
-

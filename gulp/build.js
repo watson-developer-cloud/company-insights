@@ -94,4 +94,6 @@ gulp.task( 'server', function() {
   server.listen( { path: 'app.js' } );
 });
 
-gulp.task('build', ['html', 'fonts', 'other']);
+gulp.task('build', ['html', 'fonts', 'other'], function(){
+  gulp.start('server');
+});
