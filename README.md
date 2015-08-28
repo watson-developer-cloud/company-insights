@@ -14,7 +14,7 @@ Click the button below to fork into IBM DevOps Services and deploy your own copy
 Next set your [AlchemyAPI] and [Twitter] keys via either the [Bluemix] web interface or the [`cf` command line tool]:
 
 ```sh
-cf set-env company-insights ALCHEMY_AIP_KEY <api_key>
+cf set-env company-insights ALCHEMY_API_KEY <api_key>
 cf set-env company-insights TWITTER_CONSUMER_KEY <consumer_key>
 cf set-env company-insights TWITTER_CONSUMER_SECRET <consumer_secret>
 cf set-env company-insights TWITTER_ACCESS_TOKEN_KEY <access_token_key>
