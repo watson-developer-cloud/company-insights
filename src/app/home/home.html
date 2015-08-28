@@ -37,26 +37,51 @@
             <div flex layout="row" class="inputs">
                 <md-input-container flex>
                     <label>Enter and add handle to compare</label>
-                    <input ng-model="user.email" type="text"/>
+                    <input ng-keyup="homeCtrl.validateCompany()" ng-model="homeCtrl.companyToCompare" type="text"/>
+                    <div ng-messages>
+                        <div ng-message ng-show="homeCtrl.existCompany">This Company already exists.</div>
+                        <div ng-message ng-show="homeCtrl.invalidCompany">Please enter a Company.</div>
+                        <div ng-message ng-show="homeCtrl.limitExceeded">You have exceeded the maximum number of Companies.</div>
+                    </div>
                 </md-input-container>
-                <md-button>Add</md-button>
+                <md-button ng-click="homeCtrl.addCompanyToCompare()">Add</md-button>
             </div>
             <div class="inputs companies" layout-padding>
-                <md-button>@Buffer<span class="x">X</span></md-button>
+                <md-chips ng-model="homeCtrl.companiesToCompare" readonly="false"></md-chips>
             </div>
         </md-content>
     </div>
 </section>
 <!-- INPUT AREA END -->
 
-
 <!-- PERSONALITY INSIGHTS AREA -->
 <md-content class="md-padding">
-    <div class="container">
+    <div class="container" ng-show="homeCtrl.chartData.length > 0">
         <h2>Personality Insights</h2>
 
             <md-card>
-                <bars-chart chart-data="homeCtrl.chartData"></bars-chart>
+                <md-card-content  class="personality-insights" layout="row" layout-align="start center">
+                <div flex=70>
+                    <bars-chart chart-data="homeCtrl.chartData"></bars-chart>
+                </div>
+                <div class="personality-insights-labels" flex layout="column" layout-align="space-around end">
+                    <div>
+                        Openness
+                    </div>
+                    <div>
+                        Conscientiousness
+                    </div>
+                    <div>
+                        Extraversion
+                    </div>
+                    <div>
+                        Agreeableness
+                    </div>
+                    <div>
+                        Emotional range
+                    </div>
+                </div>
+                </md-card-content>
             </md-card>
 
     </div>
