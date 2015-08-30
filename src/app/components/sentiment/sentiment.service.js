@@ -3,16 +3,16 @@
 
   angular
     .module('company-insights')
-    .factory('news', news);
+    .factory('sentiment', sentiment);
 
   /** @ngInject */
-  function news($q, $http) {
+  function sentiment($q, $http) {
 
     var service = {
       get: function (id) {
         var deferred = $q.defer();
         $http
-          .get('/api/news/' + id)
+          .get('/api/mentions_sentiment/' + id)
           .then(function (res) {
             deferred.resolve(res.data);
           })

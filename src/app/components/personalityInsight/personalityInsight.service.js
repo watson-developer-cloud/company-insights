@@ -29,7 +29,7 @@
           }
         }else{
           $http
-            .get('/personality_insights/' + companies[pos])
+            .get('/api/personality_insights/' + companies[pos])
             .then(function (res) {
               _this.chartDataCache[companies[pos]] = res.data;
               _this.chartData[companies[pos]] = res.data;
