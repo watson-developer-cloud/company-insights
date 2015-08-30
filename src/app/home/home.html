@@ -34,7 +34,8 @@
                 </md-input-container>
                 <md-button ng-click="homeCtrl.analyze()">Analyze</md-button>
             </div>
-            <div flex layout="row" class="inputs">
+            <!-- todo: get a better trigger for when to show this section -->
+            <div flex layout="row" class="inputs" ng-if="homeCtrl.chartData.length > 0 && !homeCtrl.loading.chart">
                 <md-input-container flex>
                     <label>Enter and add handle to compare</label>
                     <input ng-keyup="homeCtrl.validateCompany()" twitter-account ng-model="homeCtrl.companyToCompare" type="text"/>
@@ -90,9 +91,31 @@
 </md-content>
 <!-- PERSONALITY INSIGHTS AREA END -->
 
+<!-- Sentiment Analysis Area -->
+<md-content class="md-padding" flex layout="vertical">
+  <div class="container" ng-if="homeCtrl.loading.sentiment || homeCtrl.sentiment">
+    <h2>Sentiment</h2>
+    <div layout="row" layout-wrap ng-if="!homeCtrl.loading.sentiment">
+      <md-card flex="30"">
+        <md-card-content>
+          <p>
+            {{ homeCtrl.sentiment.score }}
+          </p>
+          <p>(Scale is -1 to 1, negative to positive)</p>
+        </md-card-content>
+      </md-card>
+    </div>
+
+    <div ng-if="homeCtrl.loading.sentiment" class="container">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </div>
+</md-content>
+<!-- Sentiment Analysis Area END -->
+
 <!-- NEWS AREA -->
 <md-content class="md-padding" flex layout="vertical">
-    <div class="container" ng-if="!homeCtrl.loading.news">
+    <div class="container" ng-if="homeCtrl.loading.news || homeCtrl.news.length">
         <h2>News</h2>
         <div layout="row" layout-wrap>
           <md-card flex="30" ng-repeat="news in homeCtrl.news" href="{{news.url}}">
@@ -104,9 +127,10 @@
             </md-card-content>
           </md-card>
         </div>
-    </div>
-    <div ng-if="homeCtrl.loading.news" class="container">
-      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+
+      <div ng-if="homeCtrl.loading.news" class="container">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+      </div>
     </div>
 </md-content>
 <!-- NEWS AREA END -->

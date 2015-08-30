@@ -7,16 +7,18 @@
 
 
   /** @ngInject */
-  function HomeController(personalityInsight, news) {
+  function HomeController(personalityInsight, news, sentiment) {
 
     var _this = this;
     this.mainCompany = null;
     this.chartData = [];
     this.news = [];
+    this.sentiment = null;
 
     this.loading = {
       news: false,
-      chart: false
+      chart: false,
+      sentiment: false
     };
 
     this.companyToCompare = null;
@@ -29,14 +31,23 @@
     this.getNews = function(){
       this.loading.news = true;
       news
-        .get()
+        .get(this.mainCompany)
         .then(function(data){
           _this.loading.news = false;
           _this.news = data;
         });
     };
 
-    this.getNews();
+    this.getSentiment = function(){
+      this.loading.sentiment = true;
+      sentiment
+        .get(this.mainCompany)
+        .then(function(data){
+          _this.loading.sentiment = false;
+          _this.sentiment = data;
+        });
+    };
+
 
     this.analyze = function(){
       this.loading.chart = true;
@@ -50,6 +61,9 @@
           _this.loading.chart = false;
           _this.chartData = data;
         });
+
+      this.getNews();
+      this.getSentiment();
     };
 
     this.addCompanyToCompare = function(){

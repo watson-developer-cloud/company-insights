@@ -24,16 +24,16 @@ function toContentItem(tweet) {
 
 function getName(screen_name, callback) {
   var params = {screen_name: screen_name};
-  twitterClient.get('users/show', params, function(error, userInfo){
-    if (error) {
+  twitterClient.get('users/show', params, function(errors, userInfo){
+    if (errors) {
       // twitter likes to send back an array of objects that aren't actually Error instances.. and there's usually just one object
-      if (!Array.isArray(error)) {
-        error = [error];
+      if (!Array.isArray(errors)) {
+        errors = [errors];
       }
-      var messages = error.map(function(err){ return err.message }).join('\n');
+      var messages = errors.map(function(err){ return err.message }).join('\n');
       var e = new Error(messages);
-      e.code = error[0].code;
-      e.error = error;
+      e.code = errors[0].code;
+      e.errors = errors;
       return callback(e)
     }
     callback(null, userInfo['name']);
@@ -42,31 +42,31 @@ function getName(screen_name, callback) {
 
 function getMentions(handle, callback) {
   params = {q: '@'+handle, count: 100};
-  twitterClient.get('search/tweets', params, function(error, tweets){
-    if (error) {
+  twitterClient.get('search/tweets', params, function(errors, response){
+    if (errors) {
       // twitter likes to send back an array of objects that aren't actually Error instances.. and there's usually just one object
-      if (!Array.isArray(error)) {
-        error = [error];
+      if (!Array.isArray(errors)) {
+        errors = [errors];
       }
-      var messages = error.map(function(err){ return err.message }).join('\n');
+      var messages = errors.map(function(err){ return err.message }).join('\n');
       var e = new Error(messages);
-      e.code = error[0].code;
-      e.error = error;
+      e.code = errors[0].code;
+      e.errors = errors;
       return callback(e)
     }
 
-    _tweets = tweets['statuses']
+    var tweets = response['statuses']
       .filter(englishAndNoRetweet)
       .map(toContentItem);
 
-    if (_tweets.length == 0) {
-      var e = new Error('No suitable mentions found for @' + handle);
-      e.error = 'content-is-empty';
-      e.code = 400;
-      return callback(e);
+    if (tweets.length == 0) {
+      var e2 = new Error('No suitable mentions found for @' + handle);
+      e2.error = 'content-is-empty';
+      e2.code = 400;
+      return callback(e2);
     }
 
-    callback(null, toText(_tweets))
+    callback(null, toText(tweets))
   });
 }
 
