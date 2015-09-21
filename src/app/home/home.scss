@@ -28,14 +28,15 @@ md-chips .md-chip md-icon {
     display: none !important;
 }
 
-.personality-insights {
+.personality-insights, .sentiment{
     position: relative;
 }
 
-div .personality-insights-labels {
+div.personality-insights-labels, div.sentiment-labels {
     height: 100%;
     min-height: 100%;
-    //position: absolute;
-    padding: 0px 10px 32px 10px;
+    position: relative;
+    padding: 0px 0px 20px 10px;
     right: 20px;
+    top: 10px;
 }

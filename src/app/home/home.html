@@ -59,31 +59,30 @@
 <md-content class="md-padding">
     <div class="container" ng-if="homeCtrl.chartData.length > 0 && !homeCtrl.loading.chart">
         <h2>Personality Insights</h2>
-
-            <md-card>
-                <md-card-content  class="personality-insights" layout="row" layout-align="start center">
-                <div flex=70>
-                    <bars-chart chart-data="homeCtrl.chartData"></bars-chart>
+        <md-card>
+          <md-card-content  class="personality-insights" layout="row" layout-align="start center">
+            <div flex=70>
+                <bars-chart chart-data="homeCtrl.chartData"></bars-chart>
+            </div>
+            <div class="personality-insights-labels" flex layout="column" layout-align="space-around end">
+                <div>
+                    Openness
                 </div>
-                <div class="personality-insights-labels" flex layout="column" layout-align="space-around end">
-                    <div>
-                        Openness
-                    </div>
-                    <div>
-                        Conscientiousness
-                    </div>
-                    <div>
-                        Extraversion
-                    </div>
-                    <div>
-                        Agreeableness
-                    </div>
-                    <div>
-                        Emotional range
-                    </div>
+                <div>
+                    Conscientiousness
                 </div>
-                </md-card-content>
-            </md-card>
+                <div>
+                    Extraversion
+                </div>
+                <div>
+                    Agreeableness
+                </div>
+                <div>
+                    Emotional range
+                </div>
+            </div>
+          </md-card-content>
+        </md-card>
     </div>
     <div ng-if="homeCtrl.loading.chart" class="container">
       <md-progress-circular style="margin: auto;" md-mode="indeterminate"></md-progress-circular>
@@ -92,25 +91,29 @@
 <!-- PERSONALITY INSIGHTS AREA END -->
 
 <!-- Sentiment Analysis Area -->
-<md-content class="md-padding" flex layout="vertical">
+<md-content class="md-padding">
   <div class="container" ng-if="homeCtrl.loading.sentiment || homeCtrl.sentiment">
     <h2>Sentiment</h2>
-    <div layout="row" layout-wrap ng-if="!homeCtrl.loading.sentiment">
-      <md-card flex="30"">
-        <md-card-content>
-          <p>
-            {{ homeCtrl.sentiment.score }}
-          </p>
-          <p>(Scale is -1 to 1, negative to positive)</p>
-        </md-card-content>
-      </md-card>
-    </div>
+
+    <md-card ng-if="!homeCtrl.loading.sentiment">
+      <md-card-content  class="sentiment" layout="row" layout-align="start center">
+        <div flex=70>
+          <bars-chart chart-data="homeCtrl.sentiment.chartData"></bars-chart>
+        </div>
+        <div class="sentiment-labels" flex layout="column" layout-align="space-around end">
+          <div>
+            Positive
+          </div>
+        </div>
+      </md-card-content>
+    </md-card>
 
     <div ng-if="homeCtrl.loading.sentiment" class="container">
       <md-progress-circular md-mode="indeterminate"></md-progress-circular>
     </div>
   </div>
 </md-content>
+
 <!-- Sentiment Analysis Area END -->
 
 <!-- NEWS AREA -->

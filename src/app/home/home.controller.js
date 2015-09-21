@@ -45,6 +45,9 @@
         .then(function(data){
           _this.loading.sentiment = false;
           _this.sentiment = data;
+          _this.sentiment.chartData = [
+            Math.round((_this.sentiment.score/2 + 0.5) * 100) // map it from a -1 to 1 scale to a 0 to 100 scale.
+          ]
         });
     };
 
