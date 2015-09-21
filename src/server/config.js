@@ -48,7 +48,6 @@ function getBluemixServiceConfig(name) {
 
 // Get the service credentials from bluemix if we're
 if (process.env.VCAP_SERVICES) {
-  services.mongodb = getBluemixServiceConfig('mongodb').url;
   services.personality_insights = extend({'version':'v2'}, getBluemixServiceConfig('personality_insights'));
 }
 
