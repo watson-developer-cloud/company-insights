@@ -84,18 +84,14 @@
           </md-card-content>
         </md-card>
     </div>
-    <div ng-if="homeCtrl.loading.chart" class="container">
-      <md-progress-circular style="margin: auto;" md-mode="indeterminate"></md-progress-circular>
-    </div>
 </md-content>
 <!-- PERSONALITY INSIGHTS AREA END -->
 
 <!-- Sentiment Analysis Area -->
 <md-content class="md-padding">
-  <div class="container" ng-if="homeCtrl.loading.sentiment || homeCtrl.sentiment">
+  <div class="container" ng-if="homeCtrl.sentiment && !homeCtrl.loading.sentiment">
     <h2>Sentiment</h2>
-
-    <md-card ng-if="!homeCtrl.loading.sentiment">
+    <md-card>
       <md-card-content  class="sentiment" layout="row" layout-align="start center">
         <div flex=70>
           <bars-chart chart-data="homeCtrl.sentiment.chartData"></bars-chart>
@@ -107,10 +103,6 @@
         </div>
       </md-card-content>
     </md-card>
-
-    <div ng-if="homeCtrl.loading.sentiment" class="container">
-      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-    </div>
   </div>
 </md-content>
 
@@ -118,7 +110,7 @@
 
 <!-- NEWS AREA -->
 <md-content class="md-padding" flex layout="vertical">
-    <div class="container" ng-if="homeCtrl.loading.news || homeCtrl.news.length">
+    <div class="container" ng-if="homeCtrl.news.length && !homeCtrl.loading.news">
         <h2>News</h2>
         <div layout="row" layout-wrap>
           <md-card flex="30" ng-repeat="news in homeCtrl.news" href="{{news.url}}">
@@ -130,11 +122,14 @@
             </md-card-content>
           </md-card>
         </div>
-
-      <div ng-if="homeCtrl.loading.news" class="container">
-        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-      </div>
     </div>
 </md-content>
 <!-- NEWS AREA END -->
-</div>
+
+<!-- loading spinner -->
+<md-content class="md-padding">
+  <div ng-if="homeCtrl.loading.chart || homeCtrl.loading.sentiment || homeCtrl.loading.news" class="container">
+    <md-progress-circular style="margin: auto;" md-mode="indeterminate"></md-progress-circular>
+  </div>
+</md-content>
+<!-- loading spinner end -->

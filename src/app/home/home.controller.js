@@ -7,7 +7,7 @@
 
 
   /** @ngInject */
-  function HomeController(personalityInsight, news, sentiment) {
+  function HomeController($log, personalityInsight, news, sentiment) {
 
     var _this = this;
     this.mainCompany = null;
@@ -35,6 +35,10 @@
         .then(function(data){
           _this.loading.news = false;
           _this.news = data;
+        })
+        .catch(function(e) {
+          $log.error('Error loading news', e);
+          _this.loading.news = false;
         });
     };
 
@@ -48,6 +52,10 @@
           _this.sentiment.chartData = [
             Math.round((_this.sentiment.score/2 + 0.5) * 100) // map it from a -1 to 1 scale to a 0 to 100 scale.
           ]
+        })
+        .catch(function(e) {
+          $log.error('Error loading sentiment', e);
+          _this.loading.sentiment = false;
         });
     };
 
@@ -69,6 +77,10 @@
         .then(function(data){
           _this.loading.chart = false;
           _this.chartData = data;
+        })
+        .catch(function(e) {
+          $log.error('Error loading personality insights', e);
+          _this.loading.chart = false;
         });
 
       this.getNews();

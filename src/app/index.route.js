@@ -19,6 +19,12 @@
         templateUrl: 'app/home/home.html',
         controller: 'HomeController',
         controllerAs: 'homeCtrl'
+      })
+      .state('root.tos', {
+        url: '/tos',
+        templateUrl: 'app/tos/tos.html',
+        controller: 'TosController',
+        controllerAs: 'tosCtrl'
       });
 
     $urlRouterProvider.otherwise('/root/home');

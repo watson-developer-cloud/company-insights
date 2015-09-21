@@ -41,7 +41,10 @@ function getName(screen_name, callback) {
 }
 
 function getMentions(handle, callback) {
-  params = {q: '@'+handle, count: 100};
+  if (handle[0] != '@') {
+    handle = '@' + handle;
+  }
+  params = {q: handle, count: 100};
   twitterClient.get('search/tweets', params, function(errors, response){
     if (errors) {
       // twitter likes to send back an array of objects that aren't actually Error instances.. and there's usually just one object

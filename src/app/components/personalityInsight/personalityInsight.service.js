@@ -40,7 +40,7 @@
               }
             })
             .catch(function (err) {
-              deferred.reject();
+              deferred.reject(err);
             });
         }
         return deferred.promise;

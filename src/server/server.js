@@ -28,7 +28,7 @@ app.get('/api/mentions_sentiment/:id', function(req, res) {
 
     if (error) {
       console.error('error:', error);
-      return res.status(500).end(error.message || error.error || error);
+      return res.status(500).type('txt').end(error.message || error.error || error);
     }
 
     console.time("sentiment");
@@ -36,7 +36,7 @@ app.get('/api/mentions_sentiment/:id', function(req, res) {
       console.timeEnd("sentiment");
       if (err) {
         console.error('error:', err);
-        return res.status(500).end(err.message || err.error || err);
+        return res.status(500).type('txt').end(err.message || err.error || err);
       }
       res.json(sentiment);
     });
@@ -50,7 +50,7 @@ app.get('/api/personality_insights/:id', function(req, res) {
 
     if (error) {
       console.error('error:', error);
-      return res.status(500).end(error.message || error.error || error);
+      return res.status(500).type('txt').end(error.message || error.error || error);
     }
 
     // then call PI on the concatenated tweets
@@ -59,7 +59,7 @@ app.get('/api/personality_insights/:id', function(req, res) {
       console.timeEnd("personality");
       if (err) {
         console.error('error:', err);
-        return res.status(500).end(err.message || err.error || err);
+        return res.status(500).type('txt').end(err.message || err.error || err);
       }
       res.json(big5);
     });
@@ -73,7 +73,7 @@ app.get('/api/news/:id', function(req, res) {
 
     if (error) {
       console.error('error:', error);
-      return res.status(500).end(error.message || error.error || error);
+      return res.status(500).type('txt').end(error.message || error.error || error);
     }
 
     console.time("getnews");
@@ -81,7 +81,7 @@ app.get('/api/news/:id', function(req, res) {
       console.timeEnd("getnews");
       if (err) {
         console.error('error:', err);
-        return res.status(500).end(err.message || err.error || err);
+        return res.status(500).type('txt').end(err.message || err.error || err);
       }
       res.json(news);
     });
