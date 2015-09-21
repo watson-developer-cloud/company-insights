@@ -52,6 +52,12 @@
     this.analyze = function(){
       this.loading.chart = true;
       var companies = [];
+
+      // force it to begin with an @ symbol (for both aesthetics and caching)
+      if (this.mainCompany[0]  !== '@') {
+        this.mainCompany = '@' + this.mainCompany;
+      }
+
       companies.push(this.mainCompany);
       companies = companies.concat(this.companiesToCompare);
 
@@ -69,11 +75,19 @@
     this.addCompanyToCompare = function(){
       if (this.companiesToCompare.length == 7) {
         this.limitExceeded = true;
+        return;
       }
-      else if (!this.companyToCompare) {
+      if (!this.companyToCompare) {
         this.invalidCompany = true;
+        return;
       }
-      else if (this.companiesToCompare.indexOf(this.companyToCompare) > -1) {
+
+      // force it to begin with an @ symbol (for both aesthetics and caching)
+      if (this.companyToCompare[0]  !== '@') {
+        this.companyToCompare = '@' + this.companyToCompare;
+      }
+
+      if (this.companiesToCompare.indexOf(this.companyToCompare) > -1) {
         this.existCompany = true;
       }
       else{
