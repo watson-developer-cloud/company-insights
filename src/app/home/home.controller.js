@@ -38,6 +38,7 @@
         })
         .catch(function(e) {
           $log.error('Error loading news', e);
+          _this.news = null;
           _this.loading.news = false;
         });
     };
@@ -55,6 +56,7 @@
         })
         .catch(function(e) {
           $log.error('Error loading sentiment', e);
+          _this.sentiment = null;
           _this.loading.sentiment = false;
         });
     };
@@ -80,6 +82,7 @@
         })
         .catch(function(e) {
           $log.error('Error loading personality insights', e);
+          _this.chartData = null;
           _this.loading.chart = false;
         });
 

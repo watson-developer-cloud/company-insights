@@ -56,8 +56,8 @@
 <!-- INPUT AREA END -->
 
 <!-- PERSONALITY INSIGHTS AREA -->
-<md-content class="md-padding">
-    <div class="container" ng-if="homeCtrl.chartData.length > 0 && !homeCtrl.loading.chart">
+<md-content class="md-padding" ng-if="homeCtrl.chartData.length > 0 && !homeCtrl.loading.chart">
+    <div class="container">
         <h2>Personality Insights</h2>
         <md-card>
           <md-card-content  class="personality-insights" layout="row" layout-align="start center">
@@ -88,8 +88,8 @@
 <!-- PERSONALITY INSIGHTS AREA END -->
 
 <!-- Sentiment Analysis Area -->
-<md-content class="md-padding">
-  <div class="container" ng-if="homeCtrl.sentiment && !homeCtrl.loading.sentiment">
+<md-content class="md-padding" ng-if="homeCtrl.sentiment && !homeCtrl.loading.sentiment">
+  <div class="container">
     <h2>Sentiment</h2>
     <md-card>
       <md-card-content  class="sentiment" layout="row" layout-align="start center">
@@ -109,8 +109,8 @@
 <!-- Sentiment Analysis Area END -->
 
 <!-- NEWS AREA -->
-<md-content class="md-padding" flex layout="vertical">
-    <div class="container" ng-if="homeCtrl.news.length && !homeCtrl.loading.news">
+<md-content class="md-padding" flex layout="vertical" ng-if="homeCtrl.news.length && !homeCtrl.loading.news">
+    <div class="container">
         <h2>News</h2>
         <div layout="row" layout-wrap>
           <md-card flex="30" ng-repeat="news in homeCtrl.news" href="{{news.url}}">
@@ -127,9 +127,17 @@
 <!-- NEWS AREA END -->
 
 <!-- loading spinner -->
-<md-content class="md-padding">
-  <div ng-if="homeCtrl.loading.chart || homeCtrl.loading.sentiment || homeCtrl.loading.news" class="container">
+<md-content class="md-padding" ng-if="homeCtrl.loading.chart || homeCtrl.loading.sentiment || homeCtrl.loading.news">
+  <div class="container">
     <md-progress-circular style="margin: auto;" md-mode="indeterminate"></md-progress-circular>
   </div>
 </md-content>
 <!-- loading spinner end -->
+
+<!-- error message -->
+<md-content class="md-padding" ng-if="!homeCtrl.loading.chart && !homeCtrl.loading.sentiment && !homeCtrl.loading.news && !homeCtrl.chartData && !homeCtrl.news && !homeCtrl.sentiment">
+  <div class="container">
+    <h2>Ut-oh</h2>
+    <p>It looks like we can't find any data for {{homeCtrl.mainCompany}}, maybe try a different twitter handle?</p>
+  </div>
+</md-content>
