@@ -16,8 +16,8 @@ md-chips .md-chip {
     line-height: 38px!important;
 }
 
-md-chips .md-chip .md-chip-remove-container {
-    margin-top: 3px;
+.md-chips .md-chip .md-chip-remove {
+  top: -4px;
 }
 
 md-chips .md-chip md-icon {
