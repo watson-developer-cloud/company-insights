@@ -111,8 +111,8 @@
       else{
         this.companiesToCompare.push(this.companyToCompare);
         this.companyToCompare = null;
+        this.analyze();
       }
-
     };
 
     this.validateCompany = function(){
