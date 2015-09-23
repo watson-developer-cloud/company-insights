@@ -1,13 +1,13 @@
 'use strict';
 var express = require('express');
-var packageJson = require('../../package.json');
+var packageJson = require('../package.json');
 var config = require('./config.js');
 var twitter = require('./twitter.js');
 var watson = require('./watson.js');
 
 var app = express();
 
-app.use(express.static(__dirname + '/../../dist'));
+app.use(express.static(__dirname + '/../dist'));
 
 if (config.services.redis) {
   var TTL = 60 * 60 * 24;

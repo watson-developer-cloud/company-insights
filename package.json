@@ -5,7 +5,7 @@
   "main": "app.js",
   "repository": "https://github.com/watson-developer-cloud/company-insights",
   "scripts": {
-    "postinstall": "bower install",
+    "bower-install": "bower install",
     "gulp-build": "gulp build",
     "start": "node app.js",
     "test": "gulp test"
@@ -13,15 +13,20 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
+    "dotenv": "^1.2.0",
+    "express": "^4.13.3",
+    "express-redis-cache": "^0.1.8",
+    "redis-url": "^1.2.1",
+    "twitter": "^1.2.5",
+    "watson-developer-cloud": "^0.9.29"
+  },
+  "devDependencies": {
     "bower": "^1.5.2",
     "browser-sync": "~2.7.12",
     "browser-sync-spa": "~1.0.2",
     "chalk": "~1.0.0",
     "concat-stream": "~1.5.0",
     "del": "~1.2.0",
-    "dotenv": "^1.2.0",
-    "express": "^4.13.3",
-    "express-redis-cache": "^0.1.8",
     "extend": "^3.0.0",
     "gulp": "~3.9.0",
     "gulp-angular-filesort": "~1.1.1",
@@ -57,12 +62,9 @@
     "lodash": "~3.9.3",
     "main-bower-files": "~2.8.0",
     "merge-stream": "~0.1.7",
-    "redis-url": "^1.2.1",
     "request": "^2.61.0",
     "require-dir": "~0.3.0",
-    "twitter": "^1.2.5",
     "uglify-save-license": "~0.4.1",
-    "watson-developer-cloud": "^0.9.29",
     "wiredep": "~2.2.2",
     "wrench": "~1.5.8"
   }

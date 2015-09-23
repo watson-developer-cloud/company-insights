@@ -22,6 +22,7 @@ stages:
     script: |-
       #!/bin/bash
       npm install
+      npm run bower-install
       # note: npm automatically runs the postnatal script in package.json here
       # which installs the bower dependencies
 - name: Compile Front-End Assets

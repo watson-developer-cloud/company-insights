@@ -3,7 +3,19 @@ bower_components/
 .sass-cache/
 .idea/
 .tmp/
-dist/
 .DS_Store
 .env
 *.log
+.editorconfig
+.env
+.bowerrc
+bower.json
+gulpfile.js
+karma.conf.js
+protractor.conf.js
+README.md
+
+#cf pushes pre-compiled assets (either compiled locally or by the devops services) so we want to include the dist/ folder, but we don't need any of these:
+gulp/
+e2e/
+src/ # this is the front-end src.. the back-end is in /server and we do need to push that
