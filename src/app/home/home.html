@@ -32,7 +32,7 @@
                     <label>Enter a Twitter handle</label>
                     <input ng-model="homeCtrl.mainCompany" twitter-account type="text"/>
                 </md-input-container>
-                <md-button ng-click="homeCtrl.analyze()">Analyze</md-button>
+                <md-button ng-click="homeCtrl.analyze()" class="maincompany">Analyze</md-button>
             </div>
             <!-- todo: get a better trigger for when to show this section -->
             <div flex layout="row" class="inputs" ng-if="homeCtrl.chartData.length > 0 && !homeCtrl.loading.chart">
@@ -45,11 +45,11 @@
                         <div ng-message ng-show="homeCtrl.limitExceeded">You have exceeded the maximum number of Companies.</div>
                     </div>
                 </md-input-container>
-                <md-button ng-click="homeCtrl.addCompanyToCompare()">Add</md-button>
+                <md-button ng-click="homeCtrl.addCompanyToCompare()">Compare</md-button>
             </div>
-            <div class="inputs companies" layout-padding>
+            <!-- div class="inputs companies" layout-padding>
                 <md-chips ng-model="homeCtrl.companiesToCompare" readonly="false"></md-chips>
-            </div>
+            </div -->
         </md-content>
     </div>
 </section>
@@ -94,7 +94,7 @@
     <md-card>
       <md-card-content  class="sentiment" layout="row" layout-align="start center">
         <div flex=70>
-          <bars-chart chart-data="homeCtrl.sentiment.chartData"></bars-chart>
+          <bars-chart chart-data="homeCtrl.sentiment"></bars-chart>
         </div>
         <div class="sentiment-labels" flex layout="column" layout-align="space-around end">
           <div>
@@ -111,7 +111,7 @@
 <!-- NEWS AREA -->
 <md-content class="md-padding" flex layout="vertical" ng-if="homeCtrl.news.length && !homeCtrl.loading.news">
     <div class="container">
-        <h2>News</h2>
+        <h2>News <span ng-if="homeCtrl.companiesToCompare.length">for {{homeCtrl.mainCompany}}</span></h2>
         <div layout="row" layout-wrap>
           <md-card flex="30" ng-repeat="news in homeCtrl.news" href="{{news.url}}">
             <img ng-src="{{news.image}}" class="md-card-image">

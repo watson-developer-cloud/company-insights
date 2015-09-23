@@ -1,4 +1,8 @@
-/*----- CompanyChips ------*/
+md-content .inputs .md-button.maincompany {
+  background-color: #5AA700;
+}
+
+/*----- CompanyChips ------
 
 md-chips .md-chips {
     box-shadow: none !important;
@@ -27,6 +31,8 @@ md-chips .md-chip md-icon {
 .md-chip-input-container input {
     display: none !important;
 }
+
+*/
 
 .personality-insights, .sentiment{
     position: relative;

@@ -45,14 +45,16 @@
 
     this.getSentiment = function(){
       this.loading.sentiment = true;
+      var companies = [];
+      companies.push(this.mainCompany);
+      companies = companies.concat(this.companiesToCompare);
       sentiment
-        .get(this.mainCompany)
+        .analyze(companies)
         .then(function(data){
           _this.loading.sentiment = false;
           _this.sentiment = data;
-          _this.sentiment.chartData = [
-            Math.round((_this.sentiment.score/2 + 0.5) * 100) // map it from a -1 to 1 scale to a 0 to 100 scale.
-          ]
+          _this.sentiment = data;
+          _this.sentiment.companies = companies.length;
         })
         .catch(function(e) {
           $log.error('Error loading sentiment', e);
@@ -79,6 +81,7 @@
         .then(function(data){
           _this.loading.chart = false;
           _this.chartData = data;
+          _this.chartData.companies = companies.length;
         })
         .catch(function(e) {
           $log.error('Error loading personality insights', e);
@@ -109,8 +112,9 @@
         this.existCompany = true;
       }
       else{
-        this.companiesToCompare.push(this.companyToCompare);
-        this.companyToCompare = null;
+        //this.companiesToCompare.push(this.companyToCompare);
+        //this.companyToCompare = null;
+        this.companiesToCompare = [this.companyToCompare];
         this.analyze();
       }
     };

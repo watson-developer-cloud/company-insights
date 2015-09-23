@@ -36,10 +36,10 @@
             }else {
               return 'emot';
             }
-
           })
           .style("width", function(d) { return d + "%"; })
           .text(function(d) { return d + "%"; });
+        chart.attr("class", "compare-" + scope.data.companies);
       });
     }
   }
