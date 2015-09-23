@@ -1,11 +1,12 @@
 {
   "name": "company-insights",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "See your brand's personality and what others are saying in the news and social media.",
   "main": "app.js",
   "repository": "https://github.com/watson-developer-cloud/company-insights",
   "scripts": {
-    "postinstall": "bower install && gulp build",
+    "postinstall": "bower install",
+    "gulp-build": "gulp build",
     "start": "node app.js",
     "test": "gulp test"
   },
