@@ -43,7 +43,7 @@ stages:
   inputs:
   - type: job
     stage: Compile Front-End Assets
-    job: Build
+    job: gulp build
   triggers:
   - type: stage
   jobs:
