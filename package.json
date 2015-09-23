@@ -21,6 +21,7 @@
     "extend": "^3.0.0",
     "express-redis-cache": "^0.1.8",
     "redis-url": "^1.2.1",
+    "request": "^2.63.0",
     "twitter": "^1.2.5",
     "watson-developer-cloud": "^0.10.4"
   },
@@ -65,7 +66,6 @@
     "lodash": "~3.10.1",
     "main-bower-files": "~2.9.0",
     "merge-stream": "~1.0.0",
-    "request": "^2.63.0",
     "require-dir": "~0.3.0",
     "uglify-save-license": "~0.4.1",
     "wiredep": "~3.0.0-beta",
