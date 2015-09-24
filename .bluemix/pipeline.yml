@@ -16,7 +16,7 @@ stages:
   triggers:
   - type: commit
   jobs:
-  - name: Build
+  - name: install
     type: builder
     build_type: npm
     script: |-
@@ -29,7 +29,7 @@ stages:
   inputs:
   - type: job
     stage: Install Dependencies (npm & bower)
-    job: Build
+    job: install
   triggers:
   - type: stage
   jobs:
@@ -38,7 +38,7 @@ stages:
     build_type: npm
     script: |-
       #!/bin/bash
-      npm run gulp-guild
+      npm run gulp-build
 - name: Deploy
   inputs:
   - type: job
