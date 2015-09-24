@@ -9,41 +9,26 @@
 # docs at https://www.ng.bluemix.net/docs/manageapps/deployingapps.html#sharetextpipelines
 
 stages:
-- name: Install Dependencies (npm & bower)
+- name: Install & Compile
   inputs:
   - type: git
     branch: master
   triggers:
   - type: commit
   jobs:
-  - name: install
+  - name: install & build assets
     type: builder
     build_type: npm
     script: |-
       #!/bin/bash
       npm install
       npm run bower-install
-      # note: npm automatically runs the postnatal script in package.json here
-      # which installs the bower dependencies
-- name: Compile Front-End Assets
-  inputs:
-  - type: job
-    stage: Install Dependencies (npm & bower)
-    job: install
-  triggers:
-  - type: stage
-  jobs:
-  - name: gulp build
-    type: builder
-    build_type: npm
-    script: |-
-      #!/bin/bash
       npm run gulp-build
 - name: Deploy
   inputs:
   - type: job
-    stage: Compile Front-End Assets
-    job: gulp build
+    stage: Install & Compile
+    job: install & build assets
   triggers:
   - type: stage
   jobs:
