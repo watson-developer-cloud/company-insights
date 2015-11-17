@@ -23,7 +23,7 @@
     "redis-url": "^1.2.1",
     "request": "^2.63.0",
     "twitter": "^1.2.5",
-    "watson-developer-cloud": "^0.9.29"
+    "watson-developer-cloud": "^1.0.3"
   },
   "devDependencies": {
     "bower": "^1.5.2",
