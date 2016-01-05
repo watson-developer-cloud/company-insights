@@ -2,13 +2,15 @@
 declared-services:
   my_personality_insights:
     label: personality_insights
-    plan: standard
+    plan: tiered
 
 applications:
-- name: company-insights
+- host: company-insights-paswani-2148
+  name: company-insights-paswani-2148
   command: npm start
   path: .
-  memory: 512M
+  domain: mybluemix.net
+  memory: 256M
   services:
   - my_personality_insights
   env:
