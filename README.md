@@ -24,11 +24,18 @@ cf restage company-insights
 
 # Local Setup
 
-Requires [Node.js]. Grab a copy of the code and install the dependencies. 
-This also runs a one-time compile of the front-end assets.
+Requires [Node.js]. 
+
+Grab a copy of the code and install the dependencies.
 
 ```sh
 npm install
+```
+
+Compile the front-end assets:
+
+```sh
+npm run gulp-build
 ```
 
 Next create your API keys for [Twitter], [AlchemyAPI], and [Personality Insights].
