@@ -53,6 +53,9 @@ TWITTER_CONSUMER_KEY=<consumer_key>
 TWITTER_CONSUMER_SECRET=<consumer_secret>
 TWITTER_ACCESS_TOKEN_KEY=<access_token_key>
 TWITTER_ACCESS_TOKEN_SECRET=<access_token_secret>
+
+# optional, see below
+# REDIS_URL=redis://username:password@hostname:port
 ```
   
 Finally, run `npm start` to start app:
@@ -78,6 +81,14 @@ and
 nodemon
 ```
 
+## Redis caching layer
+
+This app is designed to use a Redis-backed caching layer to provide better performance and use fewer API requests. Although the app works without any caching, it is highly recommended that you enable it, even for development. 
+
+To enable Redis caching, set `REDIS_URL` to a redis-style URL:  `redis://username:password@hostname:port`. This may be set in either the environment properties or a `.dotenv` file as shown above.
+
+We recommend [Compose], however any Redis server should work.
+
 [Node.js]: https://nodejs.org/
 [Bower]: http://bower.io/
 [Twitter]: https://apps.twitter.com/
@@ -89,3 +100,4 @@ nodemon
 [`cf` command line tool]: https://github.com/cloudfoundry/cli/releases
 [domain]: http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html#domain
 [subdomain]: http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html#host
+[Compose]: https://www.compose.io/redis/
