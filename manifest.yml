@@ -2,7 +2,7 @@
 declared-services:
   my_personality_insights:
     label: personality_insights
-    plan: standard
+    plan: tiered
 
 applications:
 - name: company-insights
