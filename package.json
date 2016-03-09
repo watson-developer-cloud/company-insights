@@ -26,7 +26,7 @@
     "watson-developer-cloud": "^1.0.5"
   },
   "devDependencies": {
-    "bower": "^1.6.8",
+    "bower": "^1.7.6",
     "browser-sync": "~2.7.12",
     "browser-sync-spa": "~1.0.2",
     "chalk": "~1.0.0",
