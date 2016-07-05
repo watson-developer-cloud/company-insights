@@ -34,7 +34,7 @@
     "del": "~1.2.0",
     "gulp": "~3.9.0",
     "gulp-angular-filesort": "~1.1.1",
-    "gulp-angular-templatecache": "~1.6.0",
+    "gulp-angular-templatecache": "~1.8.0",
     "gulp-autoprefixer": "~2.3.1",
     "gulp-csso": "~1.0.0",
     "gulp-develop-server": "^0.4.3",
