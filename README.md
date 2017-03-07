@@ -1,3 +1,8 @@
+# Deprecation notice
+
+This code is still avaliable for use and likely still works, but it it no longer being actively maintained or supported by IBM.
+
+
 # Company Insights powered by IBM Watson
 
 See the "personality" of your companies twitter feed and compare it to your competitors. 
