@@ -5,7 +5,7 @@ This code is still avaliable for use and likely still works, but it it no longer
 
 # Company Insights powered by IBM Watson
 
-See the "personality" of your companies twitter feed and compare it to your competitors. 
+See the "personality" of your companies twitter feed and compare it to your competitors.
 Also see where you're mentioned in the news and what others are saying about you.
 
 See it live at http://company-insights.mybluemix.net
@@ -29,7 +29,7 @@ cf restage company-insights
 
 # Local Setup
 
-Requires [Node.js]. 
+Requires [Node.js].
 
 Grab a copy of the code and install the dependencies.
 
@@ -88,7 +88,7 @@ nodemon
 
 ## Redis caching layer
 
-This app is designed to use a Redis-backed caching layer to provide better performance and use fewer API requests. Although the app works without any caching, it is highly recommended that you enable it, even for development. 
+This app is designed to use a Redis-backed caching layer to provide better performance and use fewer API requests. Although the app works without any caching, it is highly recommended that you enable it, even for development.
 
 To enable Redis caching, set `REDIS_URL` to a redis-style URL:  `redis://username:password@hostname:port`. This may be set in either the environment properties or a `.dotenv` file as shown above.
 
@@ -98,7 +98,7 @@ We recommend [Compose], however any Redis server should work.
 [Bower]: http://bower.io/
 [Twitter]: https://apps.twitter.com/
 [AlchemyAPI]: http://www.alchemyapi.com/api/register.html
-[Personality Insights]: https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/getting_started/gs-credentials.shtml
+[Personality Insights]: https://www.ibm.com/watson/developercloud/doc/common/getting-started-credentials.html
 [Sign up for Bluemix]: https://apps.admin.ibmcloud.com/manage/trial/bluemix.html
 [Bluemix]: https://console.ng.bluemix.net/
 [Cloud Foundry]: https://www.cloudfoundry.org/
