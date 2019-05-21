@@ -1,14 +1,10 @@
-# Deprecation notice
-
-This code is still avaliable for use and likely still works, but it it no longer being actively maintained or supported by IBM.
+## DEPRECATED: this repo is no longer actively maintained. It can still be used as reference, but may contain outdated or unpatched code.
 
 
 # Company Insights powered by IBM Watson
 
 See the "personality" of your companies twitter feed and compare it to your competitors.
 Also see where you're mentioned in the news and what others are saying about you.
-
-See it live at http://company-insights.mybluemix.net
 
 ## Deploying to Bluemix
 
